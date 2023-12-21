@@ -1,14 +1,12 @@
 import { createStore } from 'vuex'
+import { auth } from './modules/auth.module'
+
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
+    auth,
+  },
+  state: {
+    back_api: 'http://localhost:4001/'
   }
 })
