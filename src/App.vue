@@ -249,16 +249,9 @@ body {
   height: 100%;
 }
 .main {
-  margin-left: 290px;
-  width: calc(100% - 290px);
+  width: 100%;
   height: calc(100% - 7rem);
   margin-top: 4rem;
-}
-.main_colapsed {
-  margin-left: 65px;
-  width: calc(100% - 65px);
-  height: calc(100% - 7rem);
-  //   border:1px solid green;
 }
 .cont_total {
   width: 100%;

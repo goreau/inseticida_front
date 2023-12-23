@@ -5,7 +5,7 @@
     :theme="{
         primary: '#161a4ee3',
         secondary: '#1a0a71',
-        tertiary: '#8478c8',
+        tertiary: '#668cff',
         textColor: '#fff'
       }">
       <template #search>
@@ -61,20 +61,20 @@
             menu: [
               { name: "Produto",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>produto>cadastrar", "route": "/home", iconSlot: "prod"},
+                  {name: "Cadastrar", path: "gerenciamento>produto>cadastrar", "route": "/produto", iconSlot: "prod"},
                   {name: "Consultar",path: "gerenciamento>produto>consultar", "route": "/produtos", iconSlot: "search"}
                 ]
               },
               { isDivider: true },
               { name: "Lote",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>lote>cadastrar", "route": "home", iconSlot: "lote"},
+                  {name: "Cadastrar", path: "gerenciamento>lote>cadastrar", "route": "/lote", iconSlot: "lote"},
                   {name: "Consultar", path: "gerenciamento>lote>consultar", "route": "/lotes", iconSlot: "search"}]
               },
               { isDivider: true },
               { name: "Revalidação",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>revalidação>cadastrar", "route": "home", iconSlot: "revalida"},
+                  {name: "Cadastrar", path: "gerenciamento>revalidação>cadastrar", "route": "/revalida", iconSlot: "revalida"},
                   {name: "Consultar", path: "gerenciamento>revalidação>consultar", "route": "/revalidas", iconSlot: "search"}
                 ]
               },
@@ -89,15 +89,15 @@
           {
             name: "Movimento",
             menu: [
-              {name: "Cadastrar",path: "movimento>cadastrar", "route": "home", iconSlot: "mov"}, 
-              {name: "Consultar",path: "movimento>consultar", "route": "home", iconSlot: "search"}
+              {name: "Cadastrar",path: "movimento>cadastrar", "route": "/movimento", iconSlot: "mov"}, 
+              {name: "Consultar",path: "movimento>consultar", "route": "/movimentos", iconSlot: "search"}
             ]
           },
           {
             name: "Pedido",
             menu: [
-              {name: "Cadastrar",path: "pedido>cadastrar", "route": "home", iconSlot: "ped"}, 
-              {name: "Consultar",path: "pedido>consultar", "route": "home", iconSlot: "search"}
+              {name: "Cadastrar",path: "pedido>cadastrar", "route": "/pedido", iconSlot: "ped"}, 
+              {name: "Consultar",path: "pedido>consultar", "route": "/pedidos", iconSlot: "search"}
             ]
           },
           {

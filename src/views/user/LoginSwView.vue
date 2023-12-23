@@ -6,7 +6,7 @@
             <div class="card">
               <header class="card-header">
                 <p class="card-header-title is-centered">
-                    Acesso
+                    Acesso vis Sisaweb
                   </p>
               </header>
               <div class="card-content">
@@ -29,7 +29,6 @@
                           </span>
                         </div>
                   </div>
-                  <a href="#" @click="openCadastro">Login via Sisaweb</a>
                 </div>
               </div>
               <footer class="card-footer">
@@ -46,6 +45,7 @@
   import Message from '@/components/general/Message.vue'
   import footerCard from '@/components/forms/FooterCard.vue'
   import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
+ import sisawebService from '@/services/sisaweb.service'; 
   
   export default {
     data() {
@@ -77,15 +77,8 @@
     },
     created() {
       document.getElementById('main').className = "main_colapsed";
-      this.$store.dispatch("auth/logout").then(() => {});
-    /*  if (this.loggedIn) {
-        this.$router.push("/home");
-      }*/
     },
     methods: {
-      openCadastro(){
-        this.$router.replace({ name: 'loginsw' });
-      },
       login() {
         document.getElementById('login').classList.add('is-loading');
         let user = {
@@ -93,11 +86,16 @@
           password: this.password
         }
   
-        this.$store.dispatch("auth/login", user)
+        sisawebService.login(user)
           .then(
-            () => {
+            (resp) => {
               document.getElementById('main').className = "main";
-              this.$router.push({ name: 'home' });
+              this.$router.push({
+                    name: 'pedidossw',
+                    params: {
+                        user: JSON.stringify(resp.data)
+                    },
+                });                
             },
             (error) => {
               this.isLoading = false;
@@ -116,12 +114,6 @@
             document.getElementById('login').classList.remove('is-loading');
           });
       },
-      cancelRegister(){
-        this.isRegistering = false;
-      },
-      registerOk() {
-        this.isRegistering = false;
-      }
     }
   
   }
@@ -137,5 +129,8 @@
       width: 100%;
   }
 
+  .card-header{
+    background-color: khaki;
+  }
   
   </style>

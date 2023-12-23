@@ -6,7 +6,7 @@
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">Produtos Cadastrados</p>
-            <button class="button is-primary is-outlined" @click="newUser">
+            <button class="button is-primary is-outlined" @click="newProduto">
               <span class="icon">
                 <font-awesome-icon icon="fa-solid fa-plus-circle" />
               </span>
@@ -57,10 +57,10 @@ export default {
   },
   methods: {
     newProduto() {
-      this.$router.push('/user');
+      this.$router.push('/produto');
       },
       editProduto(id) {
-          this.$router.push(`/manage/${id}`);
+          this.$router.push(`/editprod/${id}`);
       },
       getFormat(row) {
           return {

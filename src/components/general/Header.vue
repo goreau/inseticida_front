@@ -20,7 +20,7 @@
               <DockMenu :items="items" :onSelected="this.selected" :theme="{
                 primary: '#161a4ee3',
                 secondary: '#1a0a71',
-                tertiary: '#8478c8',
+                tertiary: '#668cff',
                 textColor: '#fff'
               }"></DockMenu>
             </div>
@@ -54,6 +54,7 @@ export default {
     },
   data() {
       return {
+        log: false,
         items : [
           {
           name: 'uuu',
@@ -64,18 +65,23 @@ export default {
   },
   computed: {
     loggedIn() {
+      this.log = this.$store.getters["auth/isLogged"];
       return this.$store.getters["auth/isLogged"];
     },
     currentUser() {
       return this.$store.getters["auth/loggedUser"];
     },
   },
-  mounted(){
-    var anchors = document.getElementsByClassName('name-container');
-    for (var i=0; i<anchors.length; i++){
-      if (anchors[i].innerHTML == 'uuu'){
-        anchors[i].innerHTML = this.currentUser.name;
-        break;
+  watch:{
+    log(val){
+      if (val){
+        var anchors = document.getElementsByClassName('name-container');
+        for (var i=0; i<anchors.length; i++){
+          if (anchors[i].innerHTML == 'uuu'){
+            anchors[i].innerHTML = this.currentUser.name;
+            break;
+          }
+        }
       }
     }
   }

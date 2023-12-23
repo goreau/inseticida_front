@@ -6,7 +6,7 @@
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">Revalidações Cadastradas</p>
-            <button class="button is-primary is-outlined" @click="newUser">
+            <button class="button is-primary is-outlined" @click="newRevalida">
               <span class="icon">
                 <font-awesome-icon icon="fa-solid fa-plus-circle" />
               </span>
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     newRevalida() {
-      this.$router.push('/user');
+      this.$router.push('/revalida');
       },
       editRevalida(id) {
           this.$router.push(`/manage/${id}`);

@@ -5,8 +5,8 @@
         <Loader v-if="isLoading" />
         <div class="card">
           <header class="card-header">
-            <p class="card-header-title is-centered">Lotes Cadastrados</p>
-            <button class="button is-primary is-outlined" @click="newLote">
+            <p class="card-header-title is-centered">Pedidos Cadastrados</p>
+            <button class="button is-primary is-outlined" @click="newPedido">
               <span class="icon">
                 <font-awesome-icon icon="fa-solid fa-plus-circle" />
               </span>
@@ -18,9 +18,6 @@
           </div>
         </div>
         <div style="display: none;">
-          <span class="icon is-small is-left" name="coisa">
-            <font-awesome-icon icon="fa-solid fa-edit" />
-          </span>
           <span class="icon is-small is-left" name="coisa2">
             <font-awesome-icon  icon="fa-solid fa-trash" />
           </span>
@@ -32,13 +29,13 @@
 </template>
 
 <script>
-import loteService from "@/services/lote.service";
+import pedidoService from "@/services/pedido.service";
 import MyTable from '@/components/forms/MyTable.vue';
 import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
 
 export default {
-  name: 'ListaLotes',
+  name: 'ListaVendas',
   data() {
       return {
           dataTable: [],
@@ -47,6 +44,7 @@ export default {
           myspan: null,
           myspan2: null,
           id_user: 0,
+          user: null,
       }
   },
   components: {
@@ -56,12 +54,14 @@ export default {
 
   },
   methods: {
-    newLote() {
-      this.$router.push('/lote');
-      },
-      editLote(id) {
-          this.$router.push(`/editlote/${id}`);
-      },
+    newPedido() {
+      this.$router.push({
+        name: 'pedido',
+        params: {
+          user: JSON.stringify(this.user)
+        },
+      });
+    },
       getFormat(row) {
           return {
               'has-text-danger-dark': row.status == 1,
@@ -72,8 +72,10 @@ export default {
           }
       }
   },
+  created() {
+    this.user = JSON.parse(this.$route.params.user);
+  },
   mounted() {
-    this.id_user = this.currentUser.id;
 
     this.myspan = document.getElementsByName('coisa')[0];
     this.myspan2 = document.getElementsByName('coisa2')[0];
@@ -81,7 +83,7 @@ export default {
    // this.myspan.innerHTML='<p>teste</p>';;
 
       this.isLoading = true;
-      loteService.getLotes()
+      pedidoService.getPedidosSw(this.user.local)
           .then((response) => {
               this.dataTable = response.data;
               this.isLoading = false;
@@ -92,24 +94,26 @@ export default {
           .finally(() => this.isLoading = false);
 
       this.columns = [
-          {title: 'Produto', field: 'produto', type: 'string'},
-          {title: 'Lote', field: 'lote', type: 'string'},
-          {title: 'Validade', field: 'dt_validade', type: 'string', sorter: "date"},
-          {title: 'Entrada', field: 'dt_entrada', type: 'string', sorter: "date"},
+          
+          {
+            title:"Pedido",
+            columns:[
+              {title: 'Data', field: 'dt_pedido', type: 'string'},
+              {title: 'Produto', field: 'produto', type: 'string'},
+              {title: 'Quantidade', field: 'quant_sol', type: 'string'},
+            ], 
+          },
+          {title: 'Status', field: 'status', type: 'string'},
+          {
+            title:"Liberação",
+            columns:[
+              {title: 'Data', field: 'dt_libera', type: 'string'},
+              {title: 'Quantidade', field: 'quant_lib', type: 'string'},
+            ], 
+          },
           {title: 'Ações',  
-            formatter: (cell, formatterParams) =>{
+            formatter: (cell, formatterParrams) =>{
               const row = cell.getRow().getData();
-
-              const btEdit = document.createElement('button');
-              btEdit.type = 'button';
-              btEdit.title = 'Editar';
-              btEdit.disabled = this.id_user != row.id_users;
-              btEdit.style.cssText = 'height: fit-content; margin-left: 1rem;';
-              btEdit.classList.add('button', 'is-primary', 'is-outlined');
-              btEdit.innerHTML = this.myspan.innerHTML;
-              btEdit.addEventListener('click', () => {
-                this.$router.push(`/editLote/${row.id_lote}`);
-              });
 
             /* const teste = document.createElement('div'); 
               teste.classList.add('icon', 'is-small');
@@ -118,25 +122,24 @@ export default {
               const btDel = document.createElement('button');
               btDel.type = 'button';
               btDel.title = 'Excluir';
-              btDel.disabled = this.id_user != row.id_users;
+              btDel.disabled = row.quant_lib > 0;
               btDel.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btDel.classList.add('button', 'is-danger', 'is-outlined');
               btDel.innerHTML = this.myspan2.innerHTML;
               btDel.addEventListener('click', async() => {
                 const ok = await this.$refs.confirmDialog.show({
                   title: 'Excluir',
-                  message: 'Deseja mesmo excluir esse usuário?',
+                  message: 'Deseja mesmo excluir esse pedido?',
                   okButton: 'Confirmar',
               })
               if (ok) {
-                authService.delete(row.id_lote);
+                authService.delete(row.id_pedido);
                 location.reload();
               }
               });
 
 
               const buttonHolder = document.createElement('span');
-              buttonHolder.appendChild(btEdit);
               buttonHolder.appendChild(btDel);
 
               return buttonHolder;
