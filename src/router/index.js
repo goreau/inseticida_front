@@ -87,6 +87,21 @@ const routes = [
     component: () => import(/* webpackChunkName: "user" */ '../views/revalida/ListRevalidasView.vue'),
   },
   {
+    path: '/address',
+    name: 'address',
+    component: () => import(/* webpackChunkName: "user" */ '../views/address/AddressView.vue'),
+  },
+  {
+    path: '/addresss',
+    name: 'addresss',
+    component: () => import(/* webpackChunkName: "user" */ '../views/address/ListAddresssView.vue'),
+  },
+  {
+    path: '/editaddress/:id',
+    name: 'editaddress',
+    component: () => import(/* webpackChunkName: "user" */ '../views/address/EditAddressView.vue'),
+  },
+  {
     path: '/movimento',
     name: 'movimento',
     component: () => import( '../views/movimento/MovimentoView.vue'),
@@ -120,6 +135,16 @@ const routes = [
     path: '/editpedido/:id',
     name: 'editpedido',
     component: () => import( '../views/pedido/EditPedidoView.vue'),
+  },
+  {
+    path: '/reports/:id',
+    name: 'reports',
+    component: () => import( '../views/report/MainReportView.vue'),
+  },
+  {
+    path: '/report/:id',
+    name: 'report',
+    component: () => import( '../views/report/ReportView.vue'),
   },
   {
     path: '/about',

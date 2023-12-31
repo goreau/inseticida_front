@@ -4,8 +4,8 @@ import authHeader from './auth.header.js';
 class AuthService {
     login(user) {
        return axios.post("/login", {
-          username: user.username,
-          password: user.password
+          login: user.login,
+          senha: user.senha
         })
         .then(response => {
           if (response.data.token) {
@@ -27,7 +27,10 @@ class AuthService {
       return axios.post("/user", data)
       .then(response => {
         return response;
-      })
+      },
+      (error) => {
+        throw new Error(error.data.msg);
+      });
     }
 
     list() {
@@ -45,7 +48,20 @@ class AuthService {
       return axios.put("/user", data)
       .then(response => {
         return response.data;
-      })
+      },
+      (error) => {
+        throw new Error(error.data.msg);
+      });
+    }
+
+    firstAccess(data) {
+      return axios.put("/firstaccess", data)
+      .then(response => {
+        return response.data;
+      },
+      (error) => {
+        throw new Error(error.data.msg);
+      });
     }
 
     edit(data) {

@@ -1,8 +1,8 @@
 import axios from "@/services/api.js";
 
-class UnidadeService {
+class AddressService {
   create(data) {
-    return axios.post("/unidade", data)
+    return axios.post("/address", data)
     .then(response => {
       return response;
     },
@@ -11,8 +11,8 @@ class UnidadeService {
     })
   }
 
-  getUnidade(id) {
-    return axios.get(`/unidade/${id}`)
+  getAddress(id) {
+    return axios.get(`/address/${id}`)
     .then(response => {
         return {data: response.data};
     },
@@ -22,17 +22,17 @@ class UnidadeService {
   } 
 
   update(data) {
-    return axios.put("/unidade", data)
+    return axios.put("/address", data)
     .then(response => {
       return response;
     },
     (error) => {
-      throw new Error(error.data.msg);
+        throw new Error(error.data.msg);
     })
   }
 
   delete(id) {
-    return axios.delete(`/unidade/${id}`)
+    return axios.delete(`/address/${id}`)
     .then(response => {
       return response;
     },
@@ -41,8 +41,8 @@ class UnidadeService {
     })
   }  
 
-  getUnidades(filter){
-    return axios.get(`/unidades/${filter}`)
+  getAddresss(filter){
+    return axios.get(`/addresss/${filter}`)
     .then(response => {
         return {data: response.data};
     },
@@ -51,18 +51,8 @@ class UnidadeService {
     })
   }
 
-  getCombo(){
-    return axios.get(`/unidadescombo`)
-    .then(response => {
-        return {data: response.data};
-    },
-    (error) => {
-        return error.response.data;
-    })
-  }
-
-  getComboMov(tipo, id_prop){
-    return axios.get(`/movcombo/${tipo}/${id_prop}`)
+  getAddressRecibo(mun){
+    return axios.get(`/addressrecibo/${mun}`)
     .then(response => {
         return {data: response.data};
     },
@@ -73,4 +63,4 @@ class UnidadeService {
   
 }
 
-export default new UnidadeService();
+export default new AddressService();

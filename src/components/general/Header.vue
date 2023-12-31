@@ -78,7 +78,7 @@ export default {
         var anchors = document.getElementsByClassName('name-container');
         for (var i=0; i<anchors.length; i++){
           if (anchors[i].innerHTML == 'uuu'){
-            anchors[i].innerHTML = this.currentUser.name;
+            anchors[i].innerHTML = this.currentUser.nome;
             break;
           }
         }

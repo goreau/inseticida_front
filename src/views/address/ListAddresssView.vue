@@ -5,8 +5,8 @@
         <Loader v-if="isLoading" />
         <div class="card">
           <header class="card-header">
-            <p class="card-header-title is-centered">Revalidações Cadastradas</p>
-            <button class="button is-primary is-outlined" @click="newRevalida">
+            <p class="card-header-title is-centered">Endereços Cadastrados</p>
+            <button class="button is-primary is-outlined" @click="newLote">
               <span class="icon">
                 <font-awesome-icon icon="fa-solid fa-plus-circle" />
               </span>
@@ -32,13 +32,13 @@
 </template>
 
 <script>
-import revalidaService from "@/services/revalida.service";
+import addressService from "@/services/address.service";
 import MyTable from '@/components/forms/MyTable.vue';
 import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
 
 export default {
-  name: 'ListaRevalidas',
+  name: 'ListaLotes',
   data() {
       return {
           dataTable: [],
@@ -56,11 +56,11 @@ export default {
 
   },
   methods: {
-    newRevalida() {
-      this.$router.push('/revalida');
+    newLote() {
+      this.$router.push('/address');
       },
-      editRevalida(id) {
-          this.$router.push(`/manage/${id}`);
+      editAddress(id) {
+          this.$router.push(`/editaddress/${id}`);
       },
       getFormat(row) {
           return {
@@ -81,7 +81,7 @@ export default {
    // this.myspan.innerHTML='<p>teste</p>';;
 
       this.isLoading = true;
-      revalidaService.getRevalidas()
+      addressService.getAddresss()
           .then((response) => {
               this.dataTable = response.data;
               this.isLoading = false;
@@ -92,23 +92,23 @@ export default {
           .finally(() => this.isLoading = false);
 
       this.columns = [
-          {title: 'Produto', field: 'produto', type: 'string'},
-          {title: 'Lote', field: 'lote', type: 'string'},
-          {title: 'Validade Original', field: 'original', type: 'string', sorter: "date"},
-          {title: 'Revalidado Para', field: 'dt_validade', type: 'string', sorter: "date"},
+          {title: 'Unidade', field: 'unidade', type: 'string'},
+          {title: 'Logradouro', field: 'endereco', type: 'string'},
+          {title: 'Bairro', field: 'bairro', type: 'string'},
+          {title: 'Atualizado em', field: 'atualiz', type: 'string', sorter: "date"},
           {title: 'Ações',  
-            formatter: (cell, formatterParrams) =>{
+            formatter: (cell, formatterParams) =>{
               const row = cell.getRow().getData();
 
               const btEdit = document.createElement('button');
               btEdit.type = 'button';
               btEdit.title = 'Editar';
-              btEdit.disabled = this.id_user != this.currentUser.id;
+              btEdit.disabled = this.currentUser.id != row.id_users;
               btEdit.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btEdit.classList.add('button', 'is-primary', 'is-outlined');
               btEdit.innerHTML = this.myspan.innerHTML;
               btEdit.addEventListener('click', () => {
-                this.$router.push(`/editRevalida/${row.id_revalida}`);
+                this.$router.push(`/editAddress/${row.id_address}`);
               });
 
             /* const teste = document.createElement('div'); 
@@ -118,18 +118,18 @@ export default {
               const btDel = document.createElement('button');
               btDel.type = 'button';
               btDel.title = 'Excluir';
-              btDel.disabled = this.id_user != this.currentUser.id;
+              btDel.disabled = this.currentUser.id != row.id_users;
               btDel.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btDel.classList.add('button', 'is-danger', 'is-outlined');
               btDel.innerHTML = this.myspan2.innerHTML;
               btDel.addEventListener('click', async() => {
                 const ok = await this.$refs.confirmDialog.show({
                   title: 'Excluir',
-                  message: 'Deseja mesmo excluir esse usuário?',
+                  message: 'Deseja mesmo excluir esse endereço?',
                   okButton: 'Confirmar',
               })
               if (ok) {
-                revalidaService.delete(row.id_revalida);
+                addressService.delete(row.id_address);
                 location.reload();
               }
               });

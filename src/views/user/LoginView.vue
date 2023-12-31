@@ -14,7 +14,7 @@
                   <div class="field">
                     <label class="label">Login</label>
                     <div class="control has-icons-left has-icons-right">
-                      <input class="input is-danger" type="text" placeholder="Nome de usuário" v-model="username">
+                      <input class="input is-danger" type="text" placeholder="Nome de usuário" v-model="user.login">
                       <span class="icon is-small is-left">
                         <font-awesome-icon icon="fa-solid fa-user" />
                       </span>
@@ -23,7 +23,7 @@
                   <div class="field">
                       <label class="label">Senha</label>
                       <div class="control has-icons-left">
-                          <input class="input" type="password" v-model="password" placeholder="Sua senha">
+                          <input class="input" type="password" v-model="user.senha" placeholder="Sua senha">
                           <span class="icon is-small is-left">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                           </span>
@@ -39,6 +39,7 @@
           </div>
         </div>
         <confirm-dialog ref="confirmDialog"></confirm-dialog>
+        <new-senha-dialog ref="newSenhaDialog"></new-senha-dialog>
       </div>
   </template>
   
@@ -46,12 +47,18 @@
   import Message from '@/components/general/Message.vue'
   import footerCard from '@/components/forms/FooterCard.vue'
   import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
+  import NewSenhaDialog from '@/components/forms/NewSenhaDialog.vue';
+  import authService from "@/services/auth.service";
+
   
   export default {
     data() {
       return {
-        username: '',
-        password: '',
+        user: {
+          login: '',
+          senha: '',
+        },
+        isNewUser: false,
         isLoading: false,
         message: '',
         caption: '',
@@ -73,7 +80,8 @@
     components: {
       Message,
       footerCard,
-      ConfirmDialog
+      ConfirmDialog,
+      NewSenhaDialog
     },
     created() {
       document.getElementById('main').className = "main_colapsed";
@@ -83,34 +91,70 @@
       }*/
     },
     methods: {
+      closeModal() {
+        this.isNewUser = false;
+      },
       openCadastro(){
         this.$router.replace({ name: 'loginsw' });
       },
       login() {
         document.getElementById('login').classList.add('is-loading');
-        let user = {
-          username: this.username,
-          password: this.password
-        }
+      /*  let user = {
+          login: this.login,
+          senha: this.senha
+        }*/
   
-        this.$store.dispatch("auth/login", user)
+        this.$store.dispatch("auth/login", this.user)
           .then(
             () => {
               document.getElementById('main').className = "main";
               this.$router.push({ name: 'home' });
             },
-            (error) => {
-              this.isLoading = false;
-              this.showMessage = true;
-              this.type = 'alert';
-              this.caption = 'Erro';
+            async (error) => {
               this.message =
               (error.response &&
                 error.response.data) ||
               error.message ||
               error.toString();
-              setTimeout(() => this.showMessage = false, 3000);
-            }
+
+              if (this.message == 'Alterar senha'){
+                const senha = await this.$refs.newSenhaDialog.show({
+                  okButton: 'Confirmar',
+                });
+                if (senha != ''){
+                  this.user.senha = senha;
+                  authService.firstAccess(this.user).then(
+                    (response) => {
+                      this.showMessage = true;
+                      this.msg = "Dados do usuário alterados comm sucesso.";
+                      this.type = "success";
+                      this.caption = "Usuário";
+                      setTimeout(() => (this.showMessage = false), 3000);
+                    },
+                    (error) => {
+                      this.msg =
+                        (error.response &&
+                          error.response.data &&
+                          error.response.data.message) ||
+                        error.response.data ||
+                        error.message ||
+                        error.toString();
+                      this.showMessage = true;
+                      this.type = "alert";
+                      this.caption = "Usuário";
+                      setTimeout(() => (this.showMessage = false), 3000);
+                    }
+                  );
+              } else {
+              
+                this.isLoading = false;
+                this.showMessage = true;
+                this.type = 'alert';
+                this.caption = 'Erro';
+                
+                setTimeout(() => this.showMessage = false, 3000);
+              }
+            }}
           )
           .finally(() => {
             document.getElementById('login').classList.remove('is-loading');

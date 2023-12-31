@@ -23,11 +23,11 @@
                     class="input"
                     type="text"
                     placeholder="Nome"
-                    v-model="user.name"
-                    :class="{ 'is-danger': v$.user.name.$error }"
+                    v-model="user.nome"
+                    :class="{ 'is-danger': v$.user.nome.$error }"
                   />
-                  <span class="is-error" v-if="v$.user.name.$error">
-                    {{ v$.user.name.$errors[0].$message }}
+                  <span class="is-error" v-if="v$.user.nome.$error">
+                    {{ v$.user.nome.$errors[0].$message }}
                   </span>
                 </div>
               </div>
@@ -52,8 +52,8 @@
                       type="radio"
                       name="role"
                       value="1"
-                      v-model="user.role"
-                      :disabled="currentUser.role > 1"
+                      v-model="user.nivel"
+                      :disabled="currentUser.nivel > 1"
                     />
                     Administrador
                   </label>
@@ -62,8 +62,8 @@
                       type="radio"
                       name="role"
                       value="2"
-                      v-model="user.role"
-                      :disabled="currentUser.role > 2"
+                      v-model="user.nivel"
+                      :disabled="currentUser.nivel > 2"
                     />
                     Gestor Regional
                   </label>
@@ -72,13 +72,13 @@
                       type="radio"
                       name="role"
                       value="3"
-                      v-model="user.role"
+                      v-model="user.nivel"
                     />
                     Usuário Setor
                   </label>
                 </div>
-                <span class="is-error" v-if="v$.user.role.$error">
-                    {{ v$.user.role.$errors[0].$message }}
+                <span class="is-error" v-if="v$.user.nivel.$error">
+                    {{ v$.user.nivel.$errors[0].$message }}
                 </span>
               </div>
               <div class="field">
@@ -103,11 +103,11 @@
                     class="input"
                     type="text"
                     placeholder="Nome de usuário"
-                    v-model="user.username"
-                    :class="{ 'is-danger': v$.user.username.$error }"
+                    v-model="user.login"
+                    :class="{ 'is-danger': v$.user.login.$error }"
                   />
-                  <span class="is-error" v-if="v$.user.username.$error">
-                    {{ v$.user.username.$errors[0].$message }}
+                  <span class="is-error" v-if="v$.user.login.$error">
+                    {{ v$.user.login.$errors[0].$message }}
                   </span>
                 </div>
               </div>
@@ -117,12 +117,12 @@
                   <input
                     class="input"
                     type="password"
-                    v-model="user.password"
+                    v-model="user.senha"
                     placeholder="Informe a senha"
-                    :class="{ 'is-danger': v$.user.password.$error }"
+                    :class="{ 'is-danger': v$.user.senha.$error }"
                   />
-                  <span class="is-error" v-if="v$.user.password.$error">
-                    {{ v$.user.password.$errors[0].$message }}
+                  <span class="is-error" v-if="v$.user.senha.$error">
+                    {{ v$.user.senha.$errors[0].$message }}
                   </span>
                 </div>
               </div>
@@ -171,13 +171,14 @@ export default {
   data() {
     return {
       user: {
-        name: "",
-        username: "",
-        password: "",
+        nome: "",
+        login: "",
+        senha: "",
         email: "",
         id_unidade: 0,
-        role: 0,
+        nivel: 0,
         id_prop: 0,
+        active: true
       },
       senha: '',
       v$: useValidate(),
@@ -197,14 +198,14 @@ export default {
   validations(){
     return {
       user: {
-        name: {required$, minLength: minLength$(10)},
-        username: {required$, minLength: minLength$(5)},
-        password: {required$, minLength: minLength$(4)},
+        nome: {required$, minLength: minLength$(10)},
+        login: {required$, minLength: minLength$(5)},
+        senha: {required$, minLength: minLength$(4)},
         email: {required$, email$},
         id_unidade: {minValue: combo$(1)},
-        role: { minValue: combo$(1) },
+        nivel: { minValue: combo$(1) },
       },
-      senha: {sameAs: sameAs$(this.user.password)}
+      senha: {sameAs: sameAs$(this.user.senha)}
     }
   },
   computed: {
@@ -236,13 +237,13 @@ export default {
             setTimeout(() => (this.showMessage = false), 3000);
           },
           (error) => {
-            this.msg =
-              (error.response &&
+            this.message = error;
+             /* (error.response &&
                 error.response.data &&
                 error.response.data.message) ||
               error.data.err ||
               error.message ||
-              error.toString();
+              error.toString();*/
             this.showMessage = true;
             this.type = "alert";
             this.caption = "Usuário";

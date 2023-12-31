@@ -129,7 +129,7 @@ export default {
                   okButton: 'Confirmar',
               })
               if (ok) {
-                authService.delete(row.id_lote);
+                loteService.delete(row.id_lote);
                 location.reload();
               }
               });

@@ -9,6 +9,7 @@
         </label>
       </div>
     </div>
+
     <div class="column is-10" :style="{visibility: filter ? 'visible' : 'hidden'}">
       <div class="columns">
         <div class="column is-3">
@@ -97,7 +98,7 @@
       <font-awesome-icon icon="fa-solid fa-file-pdf" />
     </button>
   </div>
-  <div ref="table" class="is-striped"></div>
+  <div ref="table"></div>
 </template>
 
 <script>
@@ -120,6 +121,19 @@ export default {
     };
   },
   methods: {
+    tabulatorGetGroupData(group) {
+        var rows = [];
+        var groupList = group._group;
+        rows = tabulatorGetGroupDataList(groupList);
+        return rows;
+    },
+    tabulatorGetGroupDataList(groupList) {
+        var rows = groupList.rows;
+        for (var i = 0; i < groupList.groupList.length; i++) {
+            rows = rows.concat(tabulatorGetGroupDataList(groupList.groupList[i]));
+        }
+        return rows;
+    },
     setFilter() {
       let obj = this.form;
 
@@ -167,6 +181,41 @@ export default {
         columns: this.columns, //define table columns
         pagination: "local",
         paginationSize: 10,
+        groupBy: ['produto','lote'],
+        groupStartOpen:[false, false],
+        groupHeader:[
+                function(value, count, data, group){ //generate header contents for gender groups 
+                    group.getElement().style.backgroundColor = "#D3D4DC";
+                    var total = 0;
+                    var rows = tabulatorGetGroupData(group);
+                    for (var i = 0; i < rows.length; i++) {
+                        total += parseFloat(rows[i].data.saldo);
+                    }
+                    var tot = total.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    tot += rows[0].data.unidade == 'Litro' ? ' l' : (rows[0].data.unidade == 'Kg' ? ' Kg' : ' Unidades');
+                          
+                    function tabulatorGetGroupData(group) {
+                        var rows = [];
+                        var groupList = group._group;
+                        rows = tabulatorGetGroupDataList(groupList);
+                        return rows;
+                    }
+                function tabulatorGetGroupDataList(groupList) {
+                    var rows = groupList.rows;
+                    for (var i = 0; i < groupList.groupList.length; i++) {
+                        rows = rows.concat(tabulatorGetGroupDataList(groupList.groupList[i]));
+                    }
+                    return rows;
+                }
+
+                    return "Produto: " + value + "<span style='color:#00d; margin-left:10px;'>  - Saldo: " + tot + "</span>";
+                },
+                function(value, count, data, group){ //generate header contents for color groups
+                    group.getElement().style.backgroundColor = '#F1F2F8';
+                    return "Lote: " + value + "<span style='color:#1D8423; margin-left:10px;'>  -  (" + count + " locais)</span>";
+                },
+                
+        ],
         paginationSizeSelector: [5, 10, 15, 20],
         movableColumns: true,
         paginationCounter: "rows",
@@ -183,21 +232,6 @@ export default {
       "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"
     );
     document.head.appendChild(externalScript);
-
-
-
-   /* let externalScript1 = document.createElement("script");
-    externalScript1.setAttribute(
-      "src",
-      "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"
-    );
-    document.head.appendChild(externalScript1);
-    let externalScript2 = document.createElement("script");
-    externalScript2.setAttribute(
-      "src",
-      "https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"
-    );
-    document.head.appendChild(externalScript2);*/
   },
 };
 </script>
@@ -271,4 +305,5 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
 </style>

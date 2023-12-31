@@ -67,6 +67,7 @@ import useValidate from "@vuelidate/core";
 import CmbProduto from "@/components/forms/CmbProduto.vue";
 import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
+import moment from 'moment';
 
 import {
     required$,
@@ -162,12 +163,13 @@ export default {
             if (!this.v$.$error) {
                 document.getElementById('login').classList.add('is-loading');
 
-                loteService.create(this.lote).then(
+                loteService.update(this.lote).then(
                     (response) => {
                         this.showMessage = true;
-                        this.message = "Lote inserido com sucesso!!";
+                        this.message = "Lote alterado com sucesso!!";
                         this.type = "success";
                         this.caption = "Lote";
+                        setTimeout(() => (this.showMessage = false), 3000);
                     },
                     (error) => {
                         this.message = error;

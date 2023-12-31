@@ -56,6 +56,7 @@ import useValidate from "@vuelidate/core";
 import CmbLote from "@/components/forms/CmbLote.vue";
 import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
+import moment from 'moment';
 
 import {
   required$,
@@ -156,7 +157,7 @@ export default {
     if (element) {
       // bulmaCalendar instance is available as element.bulmaCalendar
       element.bulmaCalendar.on('select', datepicker => {
-        this.lote.dt_entrada = moment(datepicker.data.startDate).format('YYYY-MM-DD');
+        this.revalida.dt_validade = moment(datepicker.data.startDate).format('YYYY-MM-DD');
       });
     }
   },

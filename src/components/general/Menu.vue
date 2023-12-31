@@ -81,8 +81,8 @@
               { isDivider: true },
               { name: "Endereço",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>endereço>cadastrar", "route": "home", iconSlot: "address"},
-                  {name: "Consultar", path: "gerenciamento>endereço>consultar", "route": "home", iconSlot: "search"}]
+                  {name: "Cadastrar", path: "gerenciamento>endereço>cadastrar", "route": "/address", iconSlot: "address"},
+                  {name: "Consultar", path: "gerenciamento>endereço>consultar", "route": "/addresss", iconSlot: "search"}]
               },
             ]
           },
@@ -103,8 +103,14 @@
           {
             name: "Relatório",
             menu: [
-              { name: "Coisa",path: "relatório>coisa", "route": "home"}, 
-              {name: "Outro",path: "relatório>outro", "route": "home"}
+              { name: "01. Repasse de Produto",path: "relatório>01. repasse de produto", "route": "/reports/1"}, 
+              { name: "02. Saldo por Local",path: "relatório>02. saldo por local", "route": "/reports/2"},
+              { name: "03. Resumo Mensal",path: "relatório>03. resumo mensal", "route": "/reports/3"}, 
+              { name: "04. Resumo por Tipo de Movimento",path: "relatório>04. resumo por tipo de movimento", "route": "/reports/4"},
+              { name: "05. Saldo por Produto",path: "relatório>05. saldo por produto", "route": "/reports/5"}, 
+              { name: "06. Resumo de Repasse",path: "relatório>06. resumo de repasse", "route": "/reports/6"},
+              { name: "07. Transferências",path: "relatório>07. transferências", "route": "/reports/7"}, 
+              { name: "08. Repasse e Consumo",path: "relatório>08. repasse e consumo", "route": "/reports/8"}
             ]
           },
         ]

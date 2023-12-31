@@ -7,7 +7,7 @@ class RevalidaService {
       return response;
     },
     (error) => {
-      return error.response.data;
+      throw new Error(error.data.msg);
     })
   }
 
@@ -27,7 +27,7 @@ class RevalidaService {
       return response;
     },
     (error) => {
-      return error.response.data;
+      throw new Error(error.data.msg);
     })
   }
 

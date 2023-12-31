@@ -80,6 +80,7 @@ import useValidate from "@vuelidate/core";
 import CmbProduto from "@/components/forms/CmbProduto.vue";
 import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
+import moment from 'moment';
 
 import {
   required$,
@@ -145,6 +146,7 @@ export default {
             this.message = "Lote inserido com sucesso!!";
             this.type = "success";
             this.caption = "Lote";
+            setTimeout(() => (this.showMessage = false), 3000);
           },
           (error) => {
             this.message = error;
@@ -186,7 +188,7 @@ export default {
     if (element) {
       // bulmaCalendar instance is available as element.bulmaCalendar
       element.bulmaCalendar.on('select', datepicker => {
-        this.lote.dt_entrada = moment(datepicker.data.startDate).format('YYYY-MM-DD');
+        this.lote.dt_validade = moment(datepicker.data.startDate).format('YYYY-MM-DD');
       });
     }
 
