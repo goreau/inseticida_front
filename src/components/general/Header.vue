@@ -46,7 +46,14 @@ export default {
   methods: {
       selected(item) {  
         if (item.name === 'Sair'){
-          this.$router.push('/login');
+          var path = window.location.href;
+          var arrpath = path.split('/');
+          arrpath.pop();
+          var final = arrpath.join('/');
+
+         // window.location = window.location.hostname;
+          window.location.assign(final);
+          //  this.$router.push('/');
         } else {
           this.$router.push('/mycad');
         }
@@ -82,7 +89,7 @@ export default {
             break;
           }
         }
-      }
+      } 
     }
   }
 };
