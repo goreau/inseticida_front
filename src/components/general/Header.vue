@@ -106,7 +106,7 @@ export default {
   }
 
 .conteudo {
-  height: 6rem;
+  height: 7rem;
   background-color: $base-bg;
   border-bottom: 4px solid $primary-color;
   padding: 1rem;
@@ -143,6 +143,7 @@ nav #logo_url {
   font-size: 2vw;
   font-family: Arial, Helvetica, sans-serif;
   color: rgb(54, 230, 19);
+  margin-bottom: 1rem;
 }
 
 @media only screen and (max-width: 320px) {

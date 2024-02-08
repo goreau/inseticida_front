@@ -111,11 +111,11 @@
               this.$router.push({ name: 'home' });
             },
             async (error) => {
-              this.message =
-              (error.response &&
+              this.message = error;
+             /* (error.response &&
                 error.response.data) ||
               error.message ||
-              error.toString();
+              error.toString();*/
 
               if (this.message == 'Alterar senha'){
                 const senha = await this.$refs.newSenhaDialog.show({
@@ -154,7 +154,15 @@
                 
                 setTimeout(() => this.showMessage = false, 3000);
               }
-            }}
+            }
+          else {
+            this.isLoading = false;
+            this.showMessage = true;
+            this.type = 'alert';
+            this.caption = 'Erro';
+                
+            setTimeout(() => this.showMessage = false, 3000);
+          }}
           )
           .finally(() => {
             document.getElementById('login').classList.remove('is-loading');

@@ -218,7 +218,7 @@ export default {
         console.log(cUser);
         if (cUser) {
             this.movimento.id_users = cUser.id;
-            this.nivel = cUser.role;
+            this.nivel = cUser.nivel;
             this.movimento.id_unidade = cUser.unidade;
         }
 
