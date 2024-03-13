@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { publicPath } from 'vue.config';
+import { publicPath } from '../../vue.config';
 
 const routes = [
   {
