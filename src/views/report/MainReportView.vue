@@ -78,7 +78,7 @@
                       <div class="field">
                         <label class="label">Produto</label>
                         <div class="control">
-                          <CmbProduto :sel="filter.id_produto" @selUnid="filter.id_produto = $event" />
+                          <CmbProduto :sel="filter.id_produto" @selProd="filter.id_produto = $event" />
                         </div>
                       </div>
                     </div>

@@ -52,6 +52,19 @@ export default {
   },
   methods: {
     createColumns() {
+          var quant = function(cell, formatterParams){
+            cell.getElement().style.paddingRight = "4rem";
+            var number = cell.getValue();
+              let x = number.split('.');
+              let x1 = x[0];
+              let x2 = x.length > 1 ? ',' + x[1] : '';
+              var rgx = /(\d+)(\d{3})/;
+              while (rgx.test(x1)) {
+                  x1 = x1.replace(rgx, '$1' + '.' + '$2');
+              }
+              return x1 + x2;
+          };
+
       switch (this.id) {
         case '1':
           this.title = 'Repasse de Produtos';
@@ -60,10 +73,10 @@ export default {
             { title: "Município", field: "municipio", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
             { title: "Lote", field: "lote", type: "string" },
-            { title: "Data", field: "data", type: "string" },
-            { title: "Quantidade", field: "qtd", type: "string" },
+            { title: "Data", field: "data", type: "string", sorter: "date" },
+            { title: "Quantidade", field: "qtd", type: "string", hozAlign:"right", formatter: quant},
             { title: "Unidade", field: "unidade", type: "string" },
-            { title: "Validade", field: "validade", type: "string" },
+            { title: "Validade", field: "validade", type: "string", sorter: "date" },
             { title: "Recibo", 
               formatter: (cell, formatterParrams) =>{
                 const row = cell.getRow().getData();
@@ -88,7 +101,7 @@ export default {
             { title: "Local", field: "local", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
             { title: "Lote", field: "lote", type: "string" },
-            { title: "Quantidade", field: "qtd", type: "string" },
+            { title: "Quantidade", field: "qtd", type: "string", hozAlign:"right", formatter: quant },
             { title: "Unidade", field: "unidade", type: "string" },
 
           ];
@@ -98,24 +111,25 @@ export default {
           this.columns = [
             { title: "Produto", field: "produto", type: "string" },
             { title: "Lote", field: "lote", type: "string" },
-            { title: "Validade", field: "validade", type: "string" },
-            { title: "Entrada", field: "entrada", type: "string" },
-            { title: "Devolução", field: "devolucao", type: "string" },
-            { title: "Repasse", field: "repasse", type: "string" },
-            { title: "Consumo", field: "consumo", type: "string" },
-            { title: "Transferência", field: "transfer", type: "string" },
-            { title: "Descarte", field: "descarte", type: "string" },
-            { title: "Saldo", field: "saldo", type: "string" },
+            { title: "Validade", field: "validade", type: "string", sorter: "date" },
+            { title: "Entrada", field: "entrada", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Devolução", field: "devolucao", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Repasse", field: "repasse", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Consumo", field: "consumo", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Transferência", field: "transfer", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Descarte", field: "descarte", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Saldo", field: "saldo", type: "string", hozAlign:"right", formatter: quant },
           ];
           break;
         case '4':
           this.title = 'Resumo por tipo de movimento';
           this.columns = [
             { title: "Tipo", field: "tipo", type: "string" },
+            { title: "Data", field: "data", type: "string", sorter: "date" },
             { title: "Local", field: "local", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
             { title: "Lote", field: "lote", type: "string" },
-            { title: "Quantidade", field: "qtd", type: "string" },
+            { title: "Quantidade", field: "qtd", type: "string", hozAlign:"right", formatter: quant },
             { title: "Unidade", field: "unidade", type: "string" },
             { title: "Or/Dest", field: "or dest", type: "string" },
           ];
@@ -126,9 +140,9 @@ export default {
           this.columns = [ 
             { title: "Produto", field: "produto", type: "string" },
             { title: "Lote", field: "lote", type: "string" },
-            { title: "Validade", field: "validade", type: "string" },
+            { title: "Validade", field: "validade", type: "string", sorter: "date" },
             { title: "Local", field: "local", type: "string" },
-            { title: "Saldo", field: "saldo", type: "string" },
+            { title: "Saldo", field: "saldo", type: "string", hozAlign:"right", formatter: quant },
             { title: "Unidade", field: "unidade", type: "string" },
           ];
           break;
@@ -137,18 +151,18 @@ export default {
           this.columns = [
             { title: "Municipio", field: "municipio", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
-            { title: "Jan", field: "jan", type: "string" },
-            { title: "Fev", field: "fev", type: "string" },
-            { title: "Mar", field: "mar", type: "string" },
-            { title: "Abr", field: "abr", type: "string" },
-            { title: "Mai", field: "mai", type: "string" },
-            { title: "Jun", field: "jun", type: "string" },
-            { title: "Jul", field: "jul", type: "string" },
-            { title: "Ago", field: "ago", type: "string" },
-            { title: "Set", field: "set", type: "string" },
-            { title: "Out", field: "out", type: "string" },
-            { title: "Nov", field: "nov", type: "string" },
-            { title: "Dez", field: "dez", type: "string" },
+            { title: "Jan", field: "jan", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Fev", field: "fev", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Mar", field: "mar", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Abr", field: "abr", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Mai", field: "mai", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Jun", field: "jun", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Jul", field: "jul", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Ago", field: "ago", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Set", field: "set", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Out", field: "out", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Nov", field: "nov", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Dez", field: "dez", type: "string", hozAlign:"right", formatter: quant },
           ];
           break;
         case '7':
@@ -157,7 +171,7 @@ export default {
             { title: "Regional", field: "regional", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
             { title: "Mês", field: "mes", type: "string" },
-            { title: "Quantidade", field: "qtd", type: "string" },
+            { title: "Quantidade", field: "qtd", type: "string", hozAlign:"right", formatter: quant },
           ];
           break;
         case '8':
@@ -166,8 +180,8 @@ export default {
             { title: "Regional", field: "regional", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
             { title: "Mês", field: "mes", type: "string" },
-            { title: "Repasse", field: "repasse", type: "string" },
-            { title: "Consumo", field: "consumo", type: "string" },
+            { title: "Repasse", field: "repasse", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Consumo", field: "consumo", type: "string", hozAlign:"right", formatter: quant },
           ];
           break;
         default:

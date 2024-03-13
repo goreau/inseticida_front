@@ -171,7 +171,6 @@ export default {
         movableColumns: true,
         paginationCounter: "rows",
       });
-    
 
       this.cbColumns = this.columns.filter( el => el.title !== "Ações");
     },

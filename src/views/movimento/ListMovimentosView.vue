@@ -100,13 +100,13 @@ export default {
           {title: 'Or/Dest', field: 'origem', type: 'string'},
           {title: 'Quant', field: 'quantidade', type: 'string', sorter: 'number'},
           {title: 'Ações',  
-            formatter: (cell, formatterParrams) =>{
+            formatter: (cell, formatterParams) =>{
               const row = cell.getRow().getData();
 
               const btEdit = document.createElement('button');
               btEdit.type = 'button';
               btEdit.title = 'Editar';
-              btEdit.disabled = row.id_users != this.currentUser.id;
+              btEdit.disabled = row.id_users != parseInt(this.currentUser.id);
               btEdit.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btEdit.classList.add('button', 'is-primary', 'is-outlined');
               btEdit.innerHTML = this.myspan.innerHTML;
@@ -121,7 +121,7 @@ export default {
               const btDel = document.createElement('button');
               btDel.type = 'button';
               btDel.title = 'Excluir';
-              btDel.disabled = row.id_users != this.currentUser.id;
+              btDel.disabled = row.id_users != parseInt(this.currentUser.id);
               btDel.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btDel.classList.add('button', 'is-danger', 'is-outlined');
               btDel.innerHTML = this.myspan2.innerHTML;
