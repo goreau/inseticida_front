@@ -260,7 +260,7 @@ export default {
         authService.edit(this.user).then(
           (response) => {
             this.showMessage = true;
-            this.msg = "Dados do usuário alterados comm sucesso.";
+            this.message = "Dados do usuário alterados com sucesso.";
             this.type = "success";
             this.caption = "Usuário";
             setTimeout(() => (this.showMessage = false), 3000);

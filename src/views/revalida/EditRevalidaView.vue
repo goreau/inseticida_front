@@ -19,7 +19,7 @@
                 <div class="field">
                   <label class="label">Produto</label>
                   <div class="control">
-                    <CmbLote
+                    <CmbLote :unid="0"
                       @selLote="revalida.id_lote = $event"
                       :sel="revalida.id_lote"
                     />
@@ -40,7 +40,7 @@
             </div>
           </div>
           <footer class="card-footer">
-            <footerCard @submit="create" @cancel="null" @aux="details" :cFooter="cFooter" />
+            <footerCard @submit="update" @cancel="null" @aux="details" :cFooter="cFooter" />
           </footer>
         </div>
       </div>
@@ -157,10 +157,10 @@ export default {
       if (!this.v$.$error) {
         document.getElementById('login').classList.add('is-loading');
         
-        revalidaService.create(this.revalida).then(
+        revalidaService.update(this.revalida).then(
           (response) => {
             this.showMessage = true;
-            this.message = "Revalidação inserida com sucesso!!";
+            this.message = "Revalidação atualizada com sucesso!!";
             this.type = "success";
             this.caption = "Revalidação";
           },

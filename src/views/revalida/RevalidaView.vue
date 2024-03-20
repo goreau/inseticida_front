@@ -19,7 +19,7 @@
                 <div class="field">
                   <label class="label">Produto</label>
                   <div class="control">
-                    <CmbLote
+                    <CmbLote :unid="0"
                       @selLote="revalida.id_lote = $event"
                     />
                     <span class="is-error" v-if="v$.revalida.id_lote.$error">
@@ -140,6 +140,16 @@ export default {
   },
   mounted() {
     let cUser = this.currentUser;
+    if (cUser && cUser.id != 11){
+      this.message = "Você não tem permissão para cadastrar revalidações";
+        this.showMessage = true;
+        this.type = "alert";
+        this.caption = "Produto";
+        setTimeout(() => {
+          this.showMessage = false
+          this.$router.go(-1);
+        }, 3000);
+    }
     if (cUser){
       this.revalida.id_users = cUser.id;
     }

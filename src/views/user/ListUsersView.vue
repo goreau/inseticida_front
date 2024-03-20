@@ -3,6 +3,13 @@
     <div class="columns is-centered">
       <div class="column is-11">
         <Loader v-if="isLoading" />
+        <Message
+          v-if="showMessage"
+          @do-close="closeMessage"
+          :msg="message"
+          :type="type"
+          :caption="caption"
+        />
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">Usuários Cadastrados</p>
@@ -36,6 +43,7 @@ import authService from "@/services/auth.service";
 import MyTable from '@/components/forms/MyTable.vue';
 import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
+import Message from "@/components/general/Message.vue";
 
 export default {
   name: 'ListaVendas',
@@ -47,12 +55,18 @@ export default {
           myspan: null,
           myspan2: null,
           id_user: 0,
+          isLoading: false,
+          message: "",
+          caption: "",
+          type: "",
+          showMessage: false,
       }
   },
   components: {
       MyTable,
       Loader,
-      ConfirmDialog
+      ConfirmDialog,
+      Message,
 
   },
   methods: {
@@ -129,8 +143,26 @@ export default {
                   okButton: 'Confirmar',
               })
               if (ok) {
-                authService.delete(row.id_users);
-                location.reload();
+                authService.delete(row.id_users)
+                .then(
+                  (response) => {
+                    this.showMessage = true;
+                    this.message = "Usuário marcado como inativo.";
+                    this.type = "success";
+                    this.caption = "Usuário";
+                    setTimeout(() => {
+                      this.showMessage = false;
+                      location.reload();
+                    }, 3000);
+                  },
+                  (error) => {
+                    this.message = error;
+                    this.showMessage = true;
+                    this.type = "alert";
+                    this.caption = "Usuário";
+                    setTimeout(() => (this.showMessage = false), 3000);
+                  }
+                )
               }
               });
 

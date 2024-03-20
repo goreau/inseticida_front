@@ -26,13 +26,13 @@ export default {
       lotes: [],
     };
   },
-  props: ['id_prop', 'sel', 'errclass','tipo'],
+  props: ['id_prop', 'sel', 'errclass','tipo', 'unid'],
   methods: {
     onChange(event) {
       this.$emit('selLote',event.target.value);
     },
     loadData() {
-      loteService.getCombo()
+      loteService.getCombo(this.unid)
       .then((res) => {
         this.lotes = res.data;
       })
@@ -43,7 +43,10 @@ export default {
     }
   },
   watch: {
-    id_prop(value) {
+    /*id_prop(value) {
+      this.loadData();
+    },*/
+    unid(value) {
       this.loadData();
     }
   },

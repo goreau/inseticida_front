@@ -63,7 +63,7 @@
                             <div class="field">
                                 <label class="label">Produto</label>
                                 <div class="control">
-                                    <CmbLote @selLote="movimento.id_lote = $event" />
+                                    <CmbLote :unid="movimento.id_unidade" @selLote="movimento.id_lote = $event" />
                                     <span class="is-error" v-if="v$.movimento.id_lote.$error">
                                         {{ v$.movimento.id_lote.$errors[0].$message }}
                                     </span>

@@ -231,7 +231,7 @@ export default {
         authService.register(this.user).then(
           (response) => {
             this.showMessage = true;
-            this.msg = "Usuário cadastrado comm sucesso.";
+            this.message = "Usuário cadastrado com sucesso.";
             this.type = "success";
             this.caption = "Usuário";
             setTimeout(() => (this.showMessage = false), 3000);

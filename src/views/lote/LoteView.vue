@@ -170,6 +170,17 @@ export default {
   },
   mounted() {
     let cUser = this.currentUser;
+    if (cUser && cUser.id != 11){
+      this.message = "Você não tem permissão para cadastrar novos lotes";
+        this.showMessage = true;
+        this.type = "alert";
+        this.caption = "Produto";
+        setTimeout(() => {
+          this.showMessage = false
+          this.$router.go(-1);
+        }, 3000);
+    }
+
     if (cUser){
       this.lote.id_users = cUser.id;
     }

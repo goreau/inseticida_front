@@ -3,6 +3,13 @@
     <div class="columns is-centered">
       <div class="column is-11">
         <Loader v-if="isLoading" />
+        <Message
+          v-if="showMessage"
+          @do-close="closeMessage"
+          :msg="message"
+          :type="type"
+          :caption="caption"
+        />
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">Revalidações Cadastradas</p>
@@ -36,6 +43,7 @@ import revalidaService from "@/services/revalida.service";
 import MyTable from '@/components/forms/MyTable.vue';
 import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
+import Message from "@/components/general/Message.vue";
 
 export default {
   name: 'ListaRevalidas',
@@ -47,12 +55,17 @@ export default {
           myspan: null,
           myspan2: null,
           id_user: 0,
+          message: "",
+          caption: "",
+          type: "",
+          showMessage: false,
       }
   },
   components: {
       MyTable,
       Loader,
-      ConfirmDialog
+      ConfirmDialog,
+      Message
 
   },
   methods: {
@@ -103,7 +116,7 @@ export default {
               const btEdit = document.createElement('button');
               btEdit.type = 'button';
               btEdit.title = 'Editar';
-              btEdit.disabled = this.id_user != this.currentUser.id;
+              btEdit.disabled = row.id_users != this.currentUser.id;
               btEdit.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btEdit.classList.add('button', 'is-primary', 'is-outlined');
               btEdit.innerHTML = this.myspan.innerHTML;
@@ -118,19 +131,36 @@ export default {
               const btDel = document.createElement('button');
               btDel.type = 'button';
               btDel.title = 'Excluir';
-              btDel.disabled = this.id_user != this.currentUser.id;
+              btDel.disabled = row.id_users != this.currentUser.id;
               btDel.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btDel.classList.add('button', 'is-danger', 'is-outlined');
               btDel.innerHTML = this.myspan2.innerHTML;
               btDel.addEventListener('click', async() => {
                 const ok = await this.$refs.confirmDialog.show({
                   title: 'Excluir',
-                  message: 'Deseja mesmo excluir esse usuário?',
+                  message: 'Deseja mesmo excluir essa revalidação?',
                   okButton: 'Confirmar',
               })
               if (ok) {
-                revalidaService.delete(row.id_revalida);
-                location.reload();
+                revalidaService.delete(row.id_revalida).then(
+                  (response) => {
+                    this.showMessage = true;
+                    this.message = "Revalidação excluída.";
+                    this.type = "success";
+                    this.caption = "Revalidação";
+                    setTimeout(() => {
+                      this.showMessage = false;
+                      location.reload();
+                    }, 3000);
+                  },
+                  (error) => {
+                    this.message = error;
+                    this.showMessage = true;
+                    this.type = "alert";
+                    this.caption = "Revalidação";
+                    setTimeout(() => (this.showMessage = false), 3000);
+                  }
+                  )
               }
               });
 

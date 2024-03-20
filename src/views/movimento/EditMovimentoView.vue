@@ -63,7 +63,7 @@
                             <div class="field">
                                 <label class="label">Produto</label>
                                 <div class="control">
-                                    <CmbLote @selLote="movimento.id_lote = $event" :sel="movimento.id_lote" />
+                                    <CmbLote :unid="movimento.id_unidade" @selLote="movimento.id_lote = $event" :sel="movimento.id_lote" />
                                     <span class="is-error" v-if="v$.movimento.id_lote.$error">
                                         {{ v$.movimento.id_lote.$errors[0].$message }}
                                     </span>
@@ -235,10 +235,10 @@ export default {
             if (!this.v$.$error) {
                 document.getElementById('login').classList.add('is-loading');
 
-                movimentoService.create(this.movimento).then(
+                movimentoService.update(this.movimento).then(
                     (response) => {
                         this.showMessage = true;
-                        this.message = "Movimento inserido com sucesso!!";
+                        this.message = "Movimento alterado com sucesso!!";
                         this.type = "success";
                         this.caption = "Movimento";
                     },
