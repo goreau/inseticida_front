@@ -82,7 +82,7 @@ export default {
                 const row = cell.getRow().getData();
 
                 var newlink = document.createElement('a');
-                newlink.setAttribute('href', '#');
+                newlink.setAttribute('href', '#/report/1');
                 
                 newlink.innerText = 'Visualizar';
 

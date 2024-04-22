@@ -273,12 +273,10 @@ export default {
   validations() {
     return {
       pedido: {
-        pedido: {required$, maxLength: maxLength$(255)},
         id_produto: {minValue: combo$(1),},
         id_programa: {required$, minValue: 1}, 
         justifica: {maxLength: maxLength$(255)}, 
-        quant_sol: {required$},  
-        est_montada: {required$}, 
+        quant_sol: {required$},   
         est_portatil: {required$}, 
         est_pulverizador: {required$}, 
         est_imoveis: {required$}, 
@@ -293,6 +291,8 @@ export default {
       this.v$.$validate(); // checks all inputs
       if (!this.v$.$error) {
         document.getElementById('login').classList.add('is-loading');
+
+        this.pedido.id_municipio = this.user.local;
         
         pedidoService.create(this.pedido).then(
           (response) => {

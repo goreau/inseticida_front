@@ -98,7 +98,7 @@
                     <div class="column is-half">
                       <label class="label">Início</label>
                       <div class="field">
-                        <div class="control">
+                        <div class="control" id="contIni">
                           <input type="date" id="dtIni" />
                         </div>
                       </div>
@@ -107,7 +107,7 @@
                     <div class="column is-half">
                       <label class="label">Término</label>
                       <div class="field">
-                        <div class="control">
+                        <div class="control" id="contFim">
                           <input type="date" id="dtFim" />
                         </div>
 
@@ -211,16 +211,21 @@ export default {
     }
     if (this.hasData){
 
-      const element = document.querySelector('#dtIni');
+      const teste = document.querySelector('#dtIni');
 
-      if (element.type == 'text') {
-        return true;
+      if (teste.type == 'text') {
+        const elIni = document.querySelector('#contIni');
+        elIni.innerHTML = "<input type='date' id='dtIni' />";
+        
+        const elFim = document.querySelector('#contFim');
+        elFim.innerHTML = "<input type='date' id='dtFim' />";
       }
 
+      const element = document.querySelector('#dtIni');
       var options = {
         type: "date",
         dateFormat: "dd/MM/yyyy",
-        dateStart: this.ini_date,
+        startDate: this.ini_date,
         showHeader: false,
         color: "primary"
       };
@@ -237,7 +242,7 @@ export default {
       options = {
         type: "date",
         dateFormat: "dd/MM/yyyy",
-        dateStart: this.fim_date,
+        startDate: this.fim_date,
         showHeader: false,
         color: "primary"
       };

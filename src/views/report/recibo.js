@@ -39,9 +39,12 @@ var recibo = {
         doc.text(obj.municipio,10,130);
 
         doc.setDrawColor(255, 255, 255); 
-        var dados = [{Produto: obj.produto, Lote: obj.lote, Validade: obj.validade, Quantidade: obj.qtd, Unidade: obj.unidade}];
-        var header = ['Produto', 'Lote', 'Validade','Quantidade','Unidade'];
-        doc.table(20,150, dados, header, { autoSize: true, padding: 5, headerBackgroundColor: '#fff' });
+        obj.lote = obj.lote.padEnd(15,' ');
+        obj.unidade =obj.unidade.padEnd(10,' ');
+
+        var dados = [{Produto: obj.produto, Lote: obj.lote, Validade: obj.validade, Quantidade: obj.qtd, 'Unidade ': obj.unidade}];
+        var header = ['Produto', 'Lote', 'Validade','Quantidade','Unidade '];
+        doc.table(20,150, dados, header, { autoSize: false, padding: 4, headerBackgroundColor: '#fff' });
 
         doc.text('Entregue por:',105,200,'center');
         doc.text('Nome:.......................................................................................',60,210);

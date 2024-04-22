@@ -29,7 +29,7 @@
                           </span>
                         </div>
                   </div>
-                  <a href="#" @click="openCadastro">Login via Sisaweb</a>
+                  <a href="#/loginsw">Login via Sisaweb</a>
                 </div>
               </div>
               <footer class="card-footer">
@@ -95,7 +95,7 @@
         this.isNewUser = false;
       },
       openCadastro(){
-        this.$router.replace({ name: 'loginsw' });
+        this.$router.push({ name: 'loginsw' });
       },
       login() {
         document.getElementById('login').classList.add('is-loading');
