@@ -37,7 +37,7 @@ class UnidadeService {
       return response;
     },
     (error) => {
-      return error.response.data;
+      throw new Error(error.data);
     })
   }  
 
@@ -53,6 +53,16 @@ class UnidadeService {
 
   getCombo(){
     return axios.get(`/unidadescombo`)
+    .then(response => {
+        return {data: response.data};
+    },
+    (error) => {
+        return error.response.data;
+    })
+  }
+
+  getComboReg(){
+    return axios.get(`/regionaiscombo`)
     .then(response => {
         return {data: response.data};
     },

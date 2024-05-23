@@ -64,7 +64,7 @@ img{
 .box .title{
   color: var(--tab_topo);
   position: absolute;
-  z-index: 999;
+  z-index: 1;
   margin: 0 auto;
   left: 0;
   right: 0;

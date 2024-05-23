@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import addressService from "@/services/address.service";
 
-var recibo = {
+var recibot = {
     async getRecibo(obj){
         var address = await this.getAddress(obj.id_unidade);
         
@@ -14,7 +14,7 @@ var recibo = {
 
         var formatedDate = dia + ' de ' + mes + ' de ' + ano;
 
-        let pdfName = 'Recibo'; 
+        let pdfName = 'Recibo_transferencia'; 
         var doc = new jsPDF();
         var img = await this.getImage();
         doc.addImage(img, "JPEG", 5, 5, 30, 30);
@@ -30,13 +30,14 @@ var recibo = {
         doc.line(10, 40, 200, 40);
 
         doc.setFontSize(20);
-        doc.text('R E C I B O',105,50,'center');
+        doc.text('R E C I B O   D E   T R A N S F E R Ê N C I A',105,50,'center');
         doc.setFontSize(15);
         doc.text(address.cidade + ", " + formatedDate, 200, 75, null, null, "right");
 
-        doc.text('Recebi em '+ obj.data +', da Secretaria de Estado da Saúde/SP o',10,110);
-        doc.text('produto abaixo relacionado, para uso no Controle de Vetores no município de', 10,120);
-        doc.text(obj.municipio,10,130);
+        doc.text('Em '+ obj.data +', foi feita a seguinte transferência de produto:',10,110);
+        
+        doc.text('Origem: ' + obj.origem,20,130);
+        doc.text('Destino: ' + obj.destino,20,140);
 
         doc.setDrawColor(255, 255, 255); 
         obj.lote = obj.lote.padEnd(15,' ');
@@ -44,7 +45,7 @@ var recibo = {
 
         var dados = [{Produto: obj.produto, Lote: obj.lote, Validade: obj.validade, Quantidade: obj.qtd, 'Unidade ': obj.unidade}];
         var header = ['Produto', 'Lote', 'Validade','Quantidade','Unidade '];
-        doc.table(20,150, dados, header, { autoSize: false, padding: 4, headerBackgroundColor: '#fff' });
+        doc.table(20,160, dados, header, { autoSize: false, padding: 4, headerBackgroundColor: '#fff' });
 
         doc.text('Entregue por:',105,200,'center');
         doc.text('Nome:.......................................................................................',60,210);
@@ -108,4 +109,4 @@ var recibo = {
     }
 }
 
-export default recibo;
+export default recibot;

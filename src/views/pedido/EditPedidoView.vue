@@ -20,7 +20,7 @@
                   <label class="label">Produto</label>
                   <div class="control">
                     <CmbProduto
-                      @selProd="pedido.id_produto = $event"
+                      @selProd="pedido.id_produto = $event" :sel="pedido.id_produto"
                     />
                     <span class="is-error" v-if="v$.pedido.id_produto.$error">
                       {{ v$.pedido.id_produto.$errors[0].$message }}
@@ -261,7 +261,8 @@ export default {
         est_imoveis: '', 
         est_casos: '', 
         est_pendencia: '', 
-        est_consumo: ''
+        est_consumo: '',
+        dt_libera:'',
       },
       v$: useValidate(),
       isLoading: false,
@@ -280,7 +281,7 @@ export default {
   validations() {
     return {
       pedido: {
-        pedido: {required$, maxLength: maxLength$(255)},
+      //  pedido: {required$, maxLength: maxLength$(255)},
         id_produto: {minValue: combo$(1),},
         id_programa: {required$, minValue: 1}, 
         justifica: {maxLength: maxLength$(255)}, 
@@ -307,7 +308,8 @@ export default {
       pedidoService.getPedido(this.pedido.id_pedido).then(
         (response) => {
           let data = response.data;
-          this.pedido.id_produto = data.id_produto;         
+          this.pedido.id_produto = data.id_produto;     
+          this.pedido.id_programa = data.id_programa;     
           this.pedido.quant_sol = data.quant_sol;
           this.pedido.justifica = data.justifica;
 
@@ -339,11 +341,13 @@ export default {
       this.v$.$validate(); // checks all inputs
       if (!this.v$.$error) {
         document.getElementById('login').classList.add('is-loading');
+
+        this.pedido.dt_libera = new Date().toISOString().slice(0, 10);
         
-        pedidoService.create(this.pedido).then(
+        pedidoService.update(this.pedido).then(
           (response) => {
             this.showMessage = true;
-            this.message = "Pedido inserido com sucesso!!";
+            this.message = "Pedido liberado com sucesso!!";
             this.type = "success";
             this.caption = "Pedido";
           },

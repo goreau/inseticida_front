@@ -29,6 +29,8 @@ import MyTable from "@/components/forms/MyTable.vue";
 import MyGroupedTable from "@/components/forms/MyGroupedTable.vue";
 import reportService from "@/services/report.service";
 import recibo from './recibo.js';
+import recibot from './reciboT.js';
+
 
 export default {
   name: "Relatórios",
@@ -168,10 +170,28 @@ export default {
         case '7':
           this.title = 'Transferências';
           this.columns = [
-            { title: "Regional", field: "regional", type: "string" },
+            { title: "Origem", field: "origem", type: "string" },
+            { title: "Destino", field: "destino", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
-            { title: "Mês", field: "mes", type: "string" },
+            { title: "Lote", field: "lote", type: "string" },
+            { title: "Data", field: "data", type: "string" },
             { title: "Quantidade", field: "qtd", type: "string", hozAlign:"right", formatter: quant },
+            { title: "Recibo", 
+              formatter: (cell, formatterParrams) =>{
+                const row = cell.getRow().getData();
+
+                var newlink = document.createElement('a');
+                newlink.setAttribute('href', '#/report/1');
+                
+                newlink.innerText = 'Visualizar';
+
+                newlink.addEventListener('click', () => {
+                  recibot.getRecibo(row);
+                });
+
+                return newlink;
+              },
+            }
           ];
           break;
         case '8':
@@ -182,6 +202,20 @@ export default {
             { title: "Mês", field: "mes", type: "string" },
             { title: "Repasse", field: "repasse", type: "string", hozAlign:"right", formatter: quant },
             { title: "Consumo", field: "consumo", type: "string", hozAlign:"right", formatter: quant },
+          ];
+          break;
+        case '9':
+          this.title = 'Intervalos no Repasse de Produtos';
+          this.columns = [
+            { title: "Local", field: "local", type: "string" },
+            { title: "Município", field: "municipio", type: "string" },
+            { title: "Produto", field: "produto", type: "string" },
+            { title: "Lote", field: "lote", type: "string" },
+            { title: "Data Pedido", field: "pedido", type: "string", sorter: "date" },
+            { title: "Data Liberação", field: "liberacao", type: "string", sorter: "date" },
+            { title: "Data Repasse", field: "repasse", type: "string", sorter: "date" },
+            { title: "Quantidade", field: "quantidade", type: "string", hozAlign:"right", formatter: quant},
+            { title: "Unidade", field: "unidade", type: "string" },
           ];
           break;
         default:

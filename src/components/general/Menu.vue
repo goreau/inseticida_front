@@ -23,6 +23,9 @@
       <template #revalida>
         <font-awesome-icon icon="fa-solid fa-clock-rotate-left" />
       </template>
+      <template #unidade>
+        <font-awesome-icon icon="fa-solid fa-location-dot" />
+      </template>
       <template #address>
         <font-awesome-icon icon="fa-solid fa-location-dot" />
       </template>
@@ -79,6 +82,12 @@
                 ]
               },
               { isDivider: true },
+              { name: "Unidade",
+                menu: [
+                  {name: "Cadastrar", path: "gerenciamento>unidade>cadastrar", "route": "/unidade", iconSlot: "unidade"},
+                  {name: "Consultar", path: "gerenciamento>unidade>consultar", "route": "/unidades", iconSlot: "search"}]
+              },
+              { isDivider: true },
               { name: "Endereço",
                 menu: [
                   {name: "Cadastrar", path: "gerenciamento>endereço>cadastrar", "route": "/address", iconSlot: "address"},
@@ -96,7 +105,7 @@
           {
             name: "Pedido",
             menu: [
-              {name: "Cadastrar",path: "pedido>cadastrar", "route": "/pedido", iconSlot: "ped"}, 
+             // {name: "Cadastrar",path: "pedido>cadastrar", "route": "/pedido", iconSlot: "ped"}, 
               {name: "Consultar",path: "pedido>consultar", "route": "/pedidos", iconSlot: "search"}
             ]
           },
@@ -110,7 +119,8 @@
               { name: "05. Saldo por Produto",path: "relatório>05. saldo por produto", "route": "/reports/5"}, 
               { name: "06. Resumo de Repasse",path: "relatório>06. resumo de repasse", "route": "/reports/6"},
               { name: "07. Transferências",path: "relatório>07. transferências", "route": "/reports/7"}, 
-              { name: "08. Repasse e Consumo",path: "relatório>08. repasse e consumo", "route": "/reports/8"}
+              { name: "08. Repasse e Consumo",path: "relatório>08. repasse e consumo", "route": "/reports/8"},
+              { name: "09. Intervalos no Repasse",path: "relatório>09. intervalos no repasse", "route": "/reports/9"}
             ]
           },
         ]

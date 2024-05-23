@@ -90,7 +90,7 @@
                                 </span>
                             </div>
                             <div class="field">
-                                <label class="label">Quantidade</label>
+                                <label class="label">Quantidade {{ prodUnid }}</label>
                                 <input type="text" class="input" placeholder="Quantidade do Produto"
                                     v-model="movimento.quantidade" />
                                 <span class="is-error" v-if="v$.movimento.quantidade.$error">
@@ -114,6 +114,7 @@
 import Message from "@/components/general/Message.vue";
 import Loader from "@/components/general/Loader.vue";
 import movimentoService from "@/services/movimento.service";
+import loteService from '@/services/lote.service.js';
 import footerCard from "@/components/forms/FooterCard.vue";
 import useValidate from "@vuelidate/core";
 import CmbLote from "@/components/forms/CmbLote.vue";
@@ -149,6 +150,7 @@ export default {
                 master: 0,
                 or_dest: 0,
             },
+            prodUnid: '',
             v$: useValidate(),
             isLoading: false,
             message: "",
@@ -181,7 +183,8 @@ export default {
         },
     },
     methods: {
-        create() {
+        async create() {
+            await this.changeComma();
             this.v$.$validate(); // checks all inputs
             if (!this.v$.$error) {
                 document.getElementById('login').classList.add('is-loading');
@@ -191,7 +194,12 @@ export default {
                         this.showMessage = true;
                         this.message = "Movimento inserido com sucesso!!";
                         this.type = "success";
-                        this.caption = "Movimento";
+                        this.caption = "Movimento"; 
+                        setTimeout(() => {
+                            this.showMessage = false;
+                            this.movimento.quantidade = '';
+                            this.v$.$reset();
+                        }, 3000);
                     },
                     (error) => {
                         this.message = error;
@@ -212,6 +220,10 @@ export default {
                 setTimeout(() => (this.showMessage = false), 3000);
             }
         },
+        changeComma() {
+            let str = this.movimento.quantidade;
+            this.movimento.quantidade = str.replace(/,/g, ".")
+        }, 
     },
     mounted() {
         let cUser = this.currentUser;
@@ -239,6 +251,17 @@ export default {
             });
         }
     },
+    watch: {
+        'movimento.id_lote'(value){
+            loteService.getUnidProd(value)
+            .then((res) => {
+                this.prodUnid = ' (' + res.data.unidade + ')';
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+        }
+    }
 };
 </script>
 
@@ -252,5 +275,10 @@ label.radio {
     border: 1px solid;
     padding-bottom: .4rem;
     padding-top: .4rem;
+}
+
+.qtd {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="30"><text x="5" y="19" style="font: bold 16px Arial;">Age:</text></svg>') no-repeat;
+    padding-left: 50px;
 }
 </style>

@@ -138,6 +138,21 @@ const routes = [
     component: () => import( '../views/pedido/EditPedidoView.vue'),
   },
   {
+    path: '/unidades',
+    name: 'unidades',
+    component: () => import(/* webpackChunkName: "user" */ '../views/unidade/ListUnidadesView.vue'),
+  },
+  {
+    path: '/unidade',
+    name: 'unidade',
+    component: () => import(/* webpackChunkName: "user" */ '../views/unidade/UnidadeView.vue'),
+  },
+  {
+    path: '/editunidade/:id',
+    name: 'editunidade',
+    component: () => import(/* webpackChunkName: "user" */ '../views/unidade/EditUnidadeView.vue'),
+  },
+  {
     path: '/reports/:id',
     name: 'reports',
     component: () => import( '../views/report/MainReportView.vue'),

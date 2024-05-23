@@ -90,7 +90,7 @@
                                 </span>
                             </div>
                             <div class="field">
-                                <label class="label">Quantidade</label>
+                                <label class="label">Quantidade {{ prodUnid }}</label>
                                 <input type="text" class="input" placeholder="Quantidade do Produto"
                                     v-model="movimento.quantidade" />
                                 <span class="is-error" v-if="v$.movimento.quantidade.$error">
@@ -114,6 +114,7 @@
 import Message from "@/components/general/Message.vue";
 import Loader from "@/components/general/Loader.vue";
 import movimentoService from "@/services/movimento.service";
+import loteService from '@/services/lote.service.js';
 import footerCard from "@/components/forms/FooterCard.vue";
 import useValidate from "@vuelidate/core";
 import CmbLote from "@/components/forms/CmbLote.vue";
@@ -149,6 +150,7 @@ export default {
                 master: 0,
                 or_dest: 0,
             },
+            prodUnid: '',
             v$: useValidate(),
             isLoading: false,
             message: "",
@@ -230,7 +232,8 @@ export default {
             );
             this.isLoading = false;
         },
-        update() {
+        async update() {
+            await this.changeComma();
             this.v$.$validate(); // checks all inputs
             if (!this.v$.$error) {
                 document.getElementById('login').classList.add('is-loading');
@@ -241,6 +244,7 @@ export default {
                         this.message = "Movimento alterado com sucesso!!";
                         this.type = "success";
                         this.caption = "Movimento";
+                        setTimeout(() => (this.$router.go(-1)), 3000);
                     },
                     (error) => {
                         this.message = error;
@@ -261,6 +265,10 @@ export default {
                 setTimeout(() => (this.showMessage = false), 3000);
             }
         },
+        changeComma() {
+            let str = this.movimento.quantidade;
+            this.movimento.quantidade = str.replace(/,/g, ".")
+        }
     },
     created() {
         this.movimento.id_movimento = this.$route.params.id;
@@ -275,6 +283,17 @@ export default {
             this.movimento.id_unidade = cUser.unidade;
         }
     },
+    watch: {
+        'movimento.id_lote'(value){
+            loteService.getUnidProd(value)
+            .then((res) => {
+                this.prodUnid = ' (' + res.data.unidade + ')';
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+        }
+    }
 };
 </script>
 

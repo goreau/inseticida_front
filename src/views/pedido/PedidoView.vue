@@ -108,11 +108,7 @@
                     class="input"
                     type="text"
                     v-model="pedido.est_montada"
-                    :class="{ 'is-danger': v$.pedido.est_montada.$error }"
                   />
-                  <span class="is-error" v-if="v$.pedido.est_montada.$error">
-                    {{ v$.pedido.est_montada.$errors[0].$message }}
-                  </span>
                 </div>
               </div>
               <div class="field">
@@ -293,6 +289,9 @@ export default {
         document.getElementById('login').classList.add('is-loading');
 
         this.pedido.id_municipio = this.user.local;
+        if (this.pedido.est_montada==''){
+          this.pedido.est_montada='0';
+        }
         
         pedidoService.create(this.pedido).then(
           (response) => {
@@ -323,6 +322,7 @@ export default {
   },
   created() {
     this.user = JSON.parse(this.$route.params.user);
+    console.log(this.user);
   },
   mounted() {
     if (this.user){

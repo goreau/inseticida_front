@@ -60,6 +60,16 @@ class LoteService {
         return error.response.data;
     })
   }
+
+  getUnidProd(id) {
+    return axios.get(`/unidprod/${id}`)
+    .then(response => {
+        return {data: response.data};
+    },
+    (error) => {
+        return error;
+    })
+  } 
   
 }
 
