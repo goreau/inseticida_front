@@ -63,7 +63,7 @@
                             <div class="field">
                                 <label class="label">Produto</label>
                                 <div class="control">
-                                    <CmbLote :unid="movimento.id_unidade" @selLote="movimento.id_lote = $event" :sel="movimento.id_lote" />
+                                    <CmbLote :unid="movimento.id_unidade" @selLote="movimento.id_lote = $event" :sel="movimento.id_lote" :tipo=movimento.tipo />
                                     <span class="is-error" v-if="v$.movimento.id_lote.$error">
                                         {{ v$.movimento.id_lote.$errors[0].$message }}
                                     </span>
@@ -279,7 +279,7 @@ export default {
         console.log(cUser);
         if (cUser) {
             this.movimento.id_users = cUser.id;
-            this.nivel = cUser.role;
+            this.nivel = cUser.nivel;
             this.movimento.id_unidade = cUser.unidade;
         }
     },

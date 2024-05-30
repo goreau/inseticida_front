@@ -51,8 +51,8 @@ class LoteService {
     })
   }
 
-  getCombo(unid){
-    return axios.get(`/lotescombo/${unid}`)
+  getCombo(unid, tipo){
+    return axios.get(`/lotescombo/${unid}/${tipo}`)
     .then(response => {
         return {data: response.data};
     },

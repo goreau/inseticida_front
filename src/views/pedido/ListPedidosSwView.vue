@@ -133,7 +133,7 @@ export default {
                   okButton: 'Confirmar',
               })
               if (ok) {
-                authService.delete(row.id_pedido);
+                pedidoService.delete(row.id_pedido);
                 location.reload();
               }
               });

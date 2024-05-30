@@ -283,7 +283,14 @@ export default {
     };
   },
   methods: {
-    create() {
+    changeComma() {
+            let str = this.pedido.quant_sol;
+            this.pedido.quant_sol = str.replace(/,/g, ".");
+            str = this.pedido.est_pendencia;
+            this.pedido.est_pendencia = str.replace(/,/g, ".")
+        }, 
+    async create() {
+      await this.changeComma();
       this.v$.$validate(); // checks all inputs
       if (!this.v$.$error) {
         document.getElementById('login').classList.add('is-loading');
