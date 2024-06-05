@@ -99,6 +99,7 @@ export default {
           {title: 'Tipo', field: 'tipo', type: 'string'},
           {title: 'Or/Dest', field: 'origem', type: 'string'},
           {title: 'Quant', field: 'quantidade', type: 'string', sorter: 'number'},
+          {title: 'Prop', field: 'login', type: 'string', visible: false, download: true},
           {title: 'Ações',  
             formatter: (cell, formatterParams) =>{
               const row = cell.getRow().getData();
