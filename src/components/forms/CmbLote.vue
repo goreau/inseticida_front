@@ -32,7 +32,7 @@ export default {
       this.$emit('selLote',event.target.value);
     },
     loadData() {
-      loteService.getCombo(this.unid)
+      loteService.getCombo(this.unid, this.tipo)
       .then((res) => {
         this.lotes = res.data;
       })
@@ -43,9 +43,9 @@ export default {
     }
   },
   watch: {
-    /*id_prop(value) {
+    tipo(value) {
       this.loadData();
-    },*/
+    },
     unid(value) {
       this.loadData();
     }
