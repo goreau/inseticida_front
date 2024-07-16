@@ -11,6 +11,7 @@ class AuthService {
           if (response.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data));
             localStorage.removeItem('filter');
+            localStorage.removeItem('undefined');
           } 
     
           return response.data;
@@ -92,6 +93,16 @@ class AuthService {
         return response;
       })
     }  
+
+    /*updateDb() {
+      return axios.get("/updatedb")
+      .then(response => {
+        return response.data;
+      },
+      (error) => {
+        throw new Error(error.data.msg);
+      });
+    }*/
     
 }
 

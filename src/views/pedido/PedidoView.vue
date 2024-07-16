@@ -197,7 +197,8 @@
                 </div>
               </div>
               <!---->
-              
+              <br>
+              <a href="./orientacao.pdf" target="_blank">Orientações sobre Inseticidas</a>
               <!---->
             </div>
           </div>
@@ -205,6 +206,7 @@
             <footerCard @submit="create" @cancel="null" @aux="details" :cFooter="cFooter" />
           </footer>
         </div>
+        <br><br>
       </div>
     </div>
   </div>
@@ -347,5 +349,9 @@ label.radio{
   border: 1px solid;
   padding-bottom: .4rem;
   padding-top: .4rem;
+}
+a{
+  font-size: large;
+  font-weight: 700;
 }
 </style>

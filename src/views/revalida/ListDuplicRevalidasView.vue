@@ -12,8 +12,8 @@
         />
         <div class="card">
           <header class="card-header">
-            <p class="card-header-title is-centered">Lotes Cadastrados</p>
-            <button class="button is-primary is-outlined" @click="newLote">
+            <p class="card-header-title is-centered">Revalidações Cadastradas</p>
+            <button class="button is-primary is-outlined" @click="newRevalida">
               <span class="icon">
                 <font-awesome-icon icon="fa-solid fa-plus-circle" />
               </span>
@@ -39,17 +39,16 @@
 </template>
 
 <script>
-import loteService from "@/services/lote.service";
+import revalidaService from "@/services/revalida.service";
 import MyTable from '@/components/forms/MyTable.vue';
 import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
 import Message from "@/components/general/Message.vue";
 
 export default {
-  name: 'ListaLotes',
+  name: 'ListaRevalidas',
   data() {
       return {
-          tableName: 'lote',
           dataTable: [],
           isLoading: false,
           columns: [],
@@ -66,14 +65,15 @@ export default {
       MyTable,
       Loader,
       ConfirmDialog,
-      Message,
+      Message
+
   },
   methods: {
-    newLote() {
-      this.$router.push('/lote');
+    newRevalida() {
+      this.$router.push('/revalida');
       },
-      editLote(id) {
-          this.$router.push(`/editlote/${id}`);
+      editRevalida(id) {
+          this.$router.push(`/manage/${id}`);
       },
       getFormat(row) {
           return {
@@ -94,7 +94,7 @@ export default {
    // this.myspan.innerHTML='<p>teste</p>';;
 
       this.isLoading = true;
-      loteService.getLotes()
+      revalidaService.getDuplicates({})
           .then((response) => {
               this.dataTable = response.data;
               this.isLoading = false;
@@ -107,22 +107,24 @@ export default {
       this.columns = [
           {title: 'Produto', field: 'produto', type: 'string'},
           {title: 'Lote', field: 'lote', type: 'string'},
-          {title: 'Validade', field: 'dt_validade', type: 'string', sorter: "date"},
-          {title: 'Entrada', field: 'dt_entrada', type: 'string', sorter: "date"},
+          {title: 'Validade Original', field: 'original', type: 'string', sorter: "date"},
+          {title: 'Revalidado Para', field: 'validade', type: 'string', sorter: "date"},
+          {title: 'Criação', field: 'created_at', type: 'string', sorter: "date"},
+          {title: 'Atualização', field: 'updated_at', type: 'string', sorter: "date"},
           {title: 'Ações',  
-            formatter: (cell, formatterParams) =>{
+            formatter: (cell, formatterParrams) =>{
               const row = cell.getRow().getData();
 
-              const btEdit = document.createElement('button');
+            /*  const btEdit = document.createElement('button');
               btEdit.type = 'button';
               btEdit.title = 'Editar';
-              btEdit.disabled = this.id_user != row.id_users;
+              btEdit.disabled = row.id_users != this.currentUser.id;
               btEdit.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btEdit.classList.add('button', 'is-primary', 'is-outlined');
               btEdit.innerHTML = this.myspan.innerHTML;
               btEdit.addEventListener('click', () => {
-                this.$router.push(`/editLote/${row.id_lote}`);
-              });
+                this.$router.push(`/editRevalida/${row.id_revalida}`);
+              });*/
 
             /* const teste = document.createElement('div'); 
               teste.classList.add('icon', 'is-small');
@@ -131,24 +133,23 @@ export default {
               const btDel = document.createElement('button');
               btDel.type = 'button';
               btDel.title = 'Excluir';
-              btDel.disabled = this.id_user != row.id_users;
+              btDel.disabled = row.id_users != this.currentUser.id;
               btDel.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btDel.classList.add('button', 'is-danger', 'is-outlined');
               btDel.innerHTML = this.myspan2.innerHTML;
               btDel.addEventListener('click', async() => {
                 const ok = await this.$refs.confirmDialog.show({
                   title: 'Excluir',
-                  message: 'Deseja mesmo excluir esse usuário?',
+                  message: 'Deseja mesmo excluir essa revalidação?',
                   okButton: 'Confirmar',
               })
               if (ok) {
-                loteService.delete(row.id_lote)
-                .then(
+                revalidaService.delete(row.id_revalida).then(
                   (response) => {
                     this.showMessage = true;
-                    this.message = "Lote excluído.";
+                    this.message = "Revalidação excluída.";
                     this.type = "success";
-                    this.caption = "Lote";
+                    this.caption = "Revalidação";
                     setTimeout(() => {
                       this.showMessage = false;
                       location.reload();
@@ -158,7 +159,7 @@ export default {
                     this.message = error;
                     this.showMessage = true;
                     this.type = "alert";
-                    this.caption = "Lote";
+                    this.caption = "Revalidação";
                     setTimeout(() => (this.showMessage = false), 3000);
                   }
                   )
@@ -167,7 +168,7 @@ export default {
 
 
               const buttonHolder = document.createElement('span');
-              buttonHolder.appendChild(btEdit);
+             // buttonHolder.appendChild(btEdit);
               buttonHolder.appendChild(btDel);
 
               return buttonHolder;

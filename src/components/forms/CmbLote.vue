@@ -1,7 +1,7 @@
 <template>
   <div class="control">
     <div class="select">
-      <select @change="onChange($event)" class="input" :class="errclass">
+      <select @change="onChange($event)" class="input is-fullwidth" :class="errclass">
         <option value="0">-- Selecione --</option>
         <option
           v-for="loc in lotes"

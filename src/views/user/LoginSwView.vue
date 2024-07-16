@@ -6,7 +6,7 @@
             <div class="card">
               <header class="card-header">
                 <p class="card-header-title is-centered">
-                    Acesso vis Sisaweb
+                    Acesso via Sisaweb
                   </p>
               </header>
               <div class="card-content">

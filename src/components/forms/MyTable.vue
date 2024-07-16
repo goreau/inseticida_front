@@ -13,7 +13,7 @@
       <div class="columns">
         <div class="column is-3">
           <div class="select">
-            <select v-model="form.column" class="input">
+            <select v-model="form.field" class="input">
               <option value="0">-- Coluna --</option>
               <option
                 v-for="(item, index) in cbColumns"
@@ -28,7 +28,7 @@
         <div class="column is-3">
           <div class="field">
             <div class="select">
-              <select v-model="form.operator" class="input">
+              <select v-model="form.type" class="input">
                 <option value="0">-- Comparador --</option>
                 <option value="=">igual a</option>
                 <option value=">">maior que</option>
@@ -110,12 +110,13 @@ export default {
     return {
       tabulator: null, //variable to hold your table
       form: {
-        column: "0",
-        operator: "0",
+        field: "0",
+        type: "0",
         value: "",
-        type: "string",
+        typed: "string",
       },
       filter: false,
+      arrFilter:[],
       cbColumns:[]
     };
   },
@@ -123,17 +124,24 @@ export default {
     setFilter() {
       let obj = this.form;
 
-      const col = this.columns.filter((v) => v.field === obj.column, obj);
-      obj.type = col[0].type;
+      const col = this.columns.filter((v) => v.field === obj.field, obj);
+      obj.typed = col[0].type;
 
-      this.tabulator.setFilter(obj.column, obj.operator, obj.value);
+      this.arrFilter.push({field: obj.field, type: obj.type, value: obj.value});
+
+      this.tabulator.setFilter(this.arrFilter);//obj.column, obj.operator, obj.value);
+
+      localStorage.setItem(this.tableName, JSON.stringify(this.arrFilter));//obj));
     },
     clearFilter() {
-      this.form.column = "0";
-      this.form.operator = "0";
+      this.form.field = "0";
+      this.form.type = "0";
       this.form.value = "";
 
+      this.arrFilter = [];
+
       this.tabulator.clearFilter();
+      localStorage.removeItem(this.tableName);
     },
     download_csv() {
       this.tabulator.download("csv", "data.csv");
@@ -154,7 +162,7 @@ export default {
       this.filter = e.target.checked;
     },
   },
-  props: ["tableData", "columns","filtered"],
+  props: ["tableData", "columns","filtered", "tableName"],
   watch: {
     tableData(value) {
       this.tabulator = new Tabulator(this.$refs.table, {
@@ -173,6 +181,10 @@ export default {
       });
 
       this.cbColumns = this.columns.filter( el => el.title !== "Ações");
+
+      if (this.filter){
+        this.tabulator.setFilter(this.arrFilter);//this.form.column, this.form.operator, this.form.value);
+      }
     },
   },
   mounted() {
@@ -182,6 +194,15 @@ export default {
       "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"
     );
     document.head.appendChild(externalScript);
+
+    let stFilter = JSON.parse(localStorage.getItem(this.tableName));
+    
+    if (stFilter) {
+      this.arrFilter = stFilter;
+      var obj = stFilter[0];
+      this.form = obj;//JSON.parse(obj);
+      this.filter = true;
+    }
 
 
 

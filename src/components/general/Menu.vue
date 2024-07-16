@@ -35,6 +35,9 @@
       <template #ped>
         <font-awesome-icon icon="fa-solid fa-hand-holding" />
       </template>
+      <template #clone>
+        <font-awesome-icon icon="fa-solid fa-clone" />
+      </template>
       </DockMenu>
 </template>
 
@@ -92,6 +95,19 @@
                 menu: [
                   {name: "Cadastrar", path: "gerenciamento>endereço>cadastrar", "route": "/address", iconSlot: "address"},
                   {name: "Consultar", path: "gerenciamento>endereço>consultar", "route": "/addresss", iconSlot: "search"}]
+              },
+              { isDivider: true },
+              { name: "Duplicidades",
+                menu: [
+                  {name: "Movimento", path: "gerenciamento>duplicidades>movimento", "route": "/duplicas", iconSlot: "clone"},
+                  {name: "Revalidação", path: "gerenciamento>duplicidades>revalidação", "route": "/duplica_revalidas", iconSlot: "clone"},
+                ]
+              },
+              { isDivider: true },
+              { name: "Saldo",
+                menu: [
+                  {name: "Resumo", path: "gerenciamento>saldo>resumo", "route": "/saldo", iconSlot: "search"},
+                ]
               },
             ]
           },

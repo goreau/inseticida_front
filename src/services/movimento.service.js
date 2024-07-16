@@ -21,13 +21,23 @@ class MovimentoService {
     })
   } 
 
+  getDuplicates(filter) {
+    return axios.get(`/duplicates/${filter}`)
+    .then(response => {
+        return {data: response.data};
+    },
+    (error) => {
+        return error;
+    })
+  } 
+
   update(data) {
     return axios.put("/movimento", data)
     .then(response => {
       return response;
     },
     (error) => {
-      return error.response.data;
+      throw new Error(error.data.msg);
     })
   }
 

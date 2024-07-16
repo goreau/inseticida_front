@@ -3,17 +3,10 @@
     <div class="columns is-centered">
       <div class="column is-11">
         <Loader v-if="isLoading" />
-        <Message
-          v-if="showMessage"
-          @do-close="closeMessage"
-          :msg="message"
-          :type="type"
-          :caption="caption"
-        />
         <div class="card">
           <header class="card-header">
-            <p class="card-header-title is-centered">Lotes Cadastrados</p>
-            <button class="button is-primary is-outlined" @click="newLote">
+            <p class="card-header-title is-centered">Movimentos</p>
+            <button class="button is-primary is-outlined" @click="newMovimento">
               <span class="icon">
                 <font-awesome-icon icon="fa-solid fa-plus-circle" />
               </span>
@@ -21,7 +14,7 @@
             </button>
           </header>
           <div class="card-content">
-            <MyTable :tableData="dataTable" :columns="columns" :filtered="true"/>
+            <MyTable :tableData="dataTable" :columns="columns" :filtered="true" :tableName="tableName"/>
           </div>
         </div>
         <div style="display: none;">
@@ -39,41 +32,36 @@
 </template>
 
 <script>
-import loteService from "@/services/lote.service";
+import movimentoService from "@/services/movimento.service";
 import MyTable from '@/components/forms/MyTable.vue';
 import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
-import Message from "@/components/general/Message.vue";
 
 export default {
-  name: 'ListaLotes',
+  name: 'ListaVendas',
   data() {
       return {
-          tableName: 'lote',
           dataTable: [],
+          tableName: 'duplica',
           isLoading: false,
           columns: [],
           myspan: null,
           myspan2: null,
           id_user: 0,
-          message: "",
-          caption: "",
-          type: "",
-          showMessage: false,
       }
   },
   components: {
       MyTable,
       Loader,
-      ConfirmDialog,
-      Message,
+      ConfirmDialog
+
   },
   methods: {
-    newLote() {
-      this.$router.push('/lote');
+    newMovimento() {
+      this.$router.push('/movimento');
       },
-      editLote(id) {
-          this.$router.push(`/editlote/${id}`);
+      editMovimento(id) {
+          this.$router.push(`/editmov/${id}`);
       },
       getFormat(row) {
           return {
@@ -94,7 +82,7 @@ export default {
    // this.myspan.innerHTML='<p>teste</p>';;
 
       this.isLoading = true;
-      loteService.getLotes()
+      movimentoService.getDuplicates({})
           .then((response) => {
               this.dataTable = response.data;
               this.isLoading = false;
@@ -105,24 +93,31 @@ export default {
           .finally(() => this.isLoading = false);
 
       this.columns = [
-          {title: 'Produto', field: 'produto', type: 'string'},
-          {title: 'Lote', field: 'lote', type: 'string'},
-          {title: 'Validade', field: 'dt_validade', type: 'string', sorter: "date"},
-          {title: 'Entrada', field: 'dt_entrada', type: 'string', sorter: "date"},
+          {title: 'Chave', field: 'id_movimento', type: 'number'},
+          {title: 'Produto', field: 'mproduto', type: 'string'},
+          {title: 'Lote', field: 'mlote', type: 'string'},
+          {title: 'Data', field: 'data', type: 'string', sorter: 'date'},
+          {title: 'Local', field: 'unidade', type: 'string'},
+          {title: 'Tipo', field: 'tipo', type: 'string'},
+          {title: 'Or/Dest', field: 'origem', type: 'string'},
+          {title: 'Quant', field: 'quantidade', type: 'string', sorter: 'number'},
+          {title: 'Criação', field: 'created_at', type: 'string', sorter: "date"},
+          {title: 'Atualização', field: 'updated_at', type: 'string', sorter: "date"},
+          {title: 'Prop', field: 'login', type: 'string', visible: false, download: true},
           {title: 'Ações',  
             formatter: (cell, formatterParams) =>{
               const row = cell.getRow().getData();
 
-              const btEdit = document.createElement('button');
+             /* const btEdit = document.createElement('button');
               btEdit.type = 'button';
               btEdit.title = 'Editar';
-              btEdit.disabled = this.id_user != row.id_users;
+              btEdit.disabled = row.id_users != parseInt(this.currentUser.id);
               btEdit.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btEdit.classList.add('button', 'is-primary', 'is-outlined');
               btEdit.innerHTML = this.myspan.innerHTML;
               btEdit.addEventListener('click', () => {
-                this.$router.push(`/editLote/${row.id_lote}`);
-              });
+                this.$router.push(`/editmovimento/${row.id_movimento}`);
+              });*/
 
             /* const teste = document.createElement('div'); 
               teste.classList.add('icon', 'is-small');
@@ -131,43 +126,25 @@ export default {
               const btDel = document.createElement('button');
               btDel.type = 'button';
               btDel.title = 'Excluir';
-              btDel.disabled = this.id_user != row.id_users;
+              btDel.disabled = row.id_users != parseInt(this.currentUser.id);
               btDel.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btDel.classList.add('button', 'is-danger', 'is-outlined');
               btDel.innerHTML = this.myspan2.innerHTML;
               btDel.addEventListener('click', async() => {
                 const ok = await this.$refs.confirmDialog.show({
                   title: 'Excluir',
-                  message: 'Deseja mesmo excluir esse usuário?',
+                  message: 'Deseja mesmo excluir esse movimento?',
                   okButton: 'Confirmar',
               })
               if (ok) {
-                loteService.delete(row.id_lote)
-                .then(
-                  (response) => {
-                    this.showMessage = true;
-                    this.message = "Lote excluído.";
-                    this.type = "success";
-                    this.caption = "Lote";
-                    setTimeout(() => {
-                      this.showMessage = false;
-                      location.reload();
-                    }, 3000);
-                  },
-                  (error) => {
-                    this.message = error;
-                    this.showMessage = true;
-                    this.type = "alert";
-                    this.caption = "Lote";
-                    setTimeout(() => (this.showMessage = false), 3000);
-                  }
-                  )
+                movimentoService.delete(row.id_movimento);
+                location.reload();
               }
               });
 
 
               const buttonHolder = document.createElement('span');
-              buttonHolder.appendChild(btEdit);
+            //  buttonHolder.appendChild(btEdit);
               buttonHolder.appendChild(btDel);
 
               return buttonHolder;

@@ -88,6 +88,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "user" */ '../views/revalida/ListRevalidasView.vue'),
   },
   {
+    path: '/duplica_revalidas',
+    name: 'duplica_revalidas',
+    component: () => import(/* webpackChunkName: "user" */ '../views/revalida/ListDuplicRevalidasView.vue'),
+  },
+  {
     path: '/address',
     name: 'address',
     component: () => import(/* webpackChunkName: "user" */ '../views/address/AddressView.vue'),
@@ -96,6 +101,21 @@ const routes = [
     path: '/addresss',
     name: 'addresss',
     component: () => import(/* webpackChunkName: "user" */ '../views/address/ListAddresssView.vue'),
+  },
+  {
+    path: '/duplicas',
+    name: 'duplicas',
+    component: () => import(/* webpackChunkName: "user" */ '../views/movimento/ListDuplicatesView.vue'),
+  },
+  {
+    path: '/saldo',
+    name: 'saldo',
+    component: () => import(/* webpackChunkName: "user" */ '../views/saldo/SaldoView.vue'),
+  },
+  {
+    path: '/crono/:lote/:unidade',
+    name: 'crono',
+    component: () => import(/* webpackChunkName: "user" */ '../views/saldo/CronoView.vue'),
   },
   {
     path: '/editaddress/:id',

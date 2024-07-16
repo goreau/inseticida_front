@@ -146,6 +146,9 @@
               <div class="columns">
                 <div class="column is-1 is-offset-11 vs">{{ version }}</div>
               </div>
+              <div class="columns" v-if="currentUser.id_usuario = 1">
+                <div class="column is-1 is-offset-11 vs"><a href="#" @click="updatedb"></a></div>
+              </div>
             </div>
           </div>
           <footer class="card-footer">
@@ -185,7 +188,7 @@ export default {
         id_usuario: 1,
       },
       senha: '',
-      version: '06.06',
+      version: '04.07',
       v$: useValidate(),
       unidade:'',
       isLoading: false,
@@ -225,7 +228,28 @@ export default {
     CmbUnidade,
     footerCard
   },
-  methods: {  
+  methods: { 
+    updatedb(){
+      authService.updateDb().then(
+          (response) => {
+            this.showMessage = true;
+            this.message = "Banco de dados alterado com sucesso.";
+            this.type = "success";
+            this.caption = "Banco de Dados";
+            setTimeout(() => (this.showMessage = false), 3000);
+          },
+          (error) => {
+            this.message = error;
+            this.showMessage = true;
+            this.type = "alert";
+            this.caption = "Banco de Dados";
+            setTimeout(() => (this.showMessage = false), 3000);
+          }
+        )
+        .finally(() => {
+            document.getElementById("login").classList.remove("is-loading");
+          });
+    },
     update() {
       this.v$.$validate(); 
       if (!this.v$.$error) {

@@ -21,6 +21,16 @@ class RevalidaService {
     })
   } 
 
+  getDuplicates(filter) {
+    return axios.get(`/duplic_revalida/${filter}`)
+    .then(response => {
+        return {data: response.data};
+    },
+    (error) => {
+        return error;
+    })
+  } 
+
   update(data) {
     return axios.put("/revalida", data)
     .then(response => {

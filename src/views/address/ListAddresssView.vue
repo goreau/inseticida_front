@@ -14,7 +14,7 @@
             </button>
           </header>
           <div class="card-content">
-            <MyTable :tableData="dataTable" :columns="columns" :filtered="true"/>
+            <MyTable :tableData="dataTable" :columns="columns" :filtered="true" :tableName="tableName"/>
           </div>
         </div>
         <div style="display: none;">
@@ -41,6 +41,7 @@ export default {
   name: 'ListaLotes',
   data() {
       return {
+          tableName: 'address',
           dataTable: [],
           isLoading: false,
           columns: [],
