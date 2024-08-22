@@ -266,7 +266,7 @@ export default {
             setTimeout(() => (this.showMessage = false), 3000);
           },
           (error) => {
-            this.msg =
+            this.message =
               (error.response &&
                 error.response.data &&
                 error.response.data.message) ||

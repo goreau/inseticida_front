@@ -23,11 +23,11 @@
                     class="input"
                     type="text"
                     placeholder="Nome"
-                    v-model="user.name"
-                    :class="{ 'is-danger': v$.user.name.$error }"
+                    v-model="user.nome"
+                    :class="{ 'is-danger': v$.user.nome.$error }"
                   />
-                  <span class="is-error" v-if="v$.user.name.$error">
-                    {{ v$.user.name.$errors[0].$message }}
+                  <span class="is-error" v-if="v$.user.nome.$error">
+                    {{ v$.user.nome.$errors[0].$message }}
                   </span>
                 </div>
               </div>
@@ -46,7 +46,7 @@
               <div class="field">
                 <label class="label">Nível</label>
                 <div class="control has-icons-left has-icons-right">
-                  <label class="radio" v-if="user.role==1">
+                  <label class="radio" v-if="user.nivel==1">
                     <input
                       type="radio"
                       name="role"
@@ -55,7 +55,7 @@
                     />
                     Administrador
                   </label>
-                  <label class="radio" v-if="user.role==2">
+                  <label class="radio" v-if="user.nivel==2">
                     <input
                       type="radio"
                       name="role"
@@ -64,7 +64,7 @@
                     />
                     Gestor Regional
                   </label>
-                  <label class="radio"  v-if="user.role==3">
+                  <label class="radio"  v-if="user.nivel==3">
                     <input
                       type="radio"
                       name="role"
@@ -97,7 +97,7 @@
                     class="input"
                     type="text"
                     placeholder="Nome de usuário"
-                    v-model="user.username"
+                    v-model="user.login"
                     readonly
                   />
                 </div>
@@ -178,17 +178,17 @@ export default {
   data() {
     return {
       user: {
-        name: "",
-        username: "",
+        nome: "",
+        login: "",
         old_password: '',
         new_password: '',
         email: "",
         id_unidade: 0,
-        role: 0,
-        id_usuario: 1,
+        nivel: 0,
+        id_users: 1,
       },
       senha: '',
-      version: '04.07',
+      version: '15.08',
       v$: useValidate(),
       unidade:'',
       isLoading: false,
@@ -197,7 +197,7 @@ export default {
       type: "",
       showMessage: false,
       cFooter:{
-          strSubmit:'Entrar',
+          strSubmit:'Salvar',
           strCancel: 'Cancelar',
           strAux:'',
           aux: false
@@ -207,7 +207,7 @@ export default {
   validations(){
     return {
       user: {
-        name: {required$, minLength: minLength$(10)},
+        nome: {required$, minLength: minLength$(10)},
         new_password: {required$, minLength: minLength$(4)},
         email: {required$, email$},
       },
@@ -285,15 +285,15 @@ export default {
     loadData() {
       this.isLoading = true;
 
-      authService.getUserData(this.user.id_usuario).then(
+      authService.getUserData(this.user.id_users).then(
         (response) => {
           let data = response.data;
-          this.user.name = data.nome;
+          this.user.nome = data.nome;
           this.user.email = data.email;
           this.unidade = data.unidade;
-          this.user.role = data.nivel;
+          this.user.nivel = data.nivel;
           this.user.password = data.senha;
-          this.user.username = data.login;
+          this.user.login = data.login;
         },
         (error) => {
           this.message = error.data;
@@ -311,7 +311,7 @@ export default {
   mounted() {
     let cUser = this.currentUser;
     if (cUser){
-      this.user.id_usuario = cUser.id;
+      this.user.id_users = cUser.id;
     }
     
     this.loadData();

@@ -198,10 +198,14 @@ export default {
     let stFilter = JSON.parse(localStorage.getItem(this.tableName));
     
     if (stFilter) {
-      this.arrFilter = stFilter;
-      var obj = stFilter[0];
-      this.form = obj;//JSON.parse(obj);
-      this.filter = true;
+      if (Array.isArray(stFilter)){
+        this.arrFilter = stFilter;
+        var obj = stFilter[0];
+        this.form = obj;//JSON.parse(obj);
+        this.filter = true;
+      } else {
+        localStorage.removeItem(this.tableName);
+      }  
     }
 
 

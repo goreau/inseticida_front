@@ -56,6 +56,16 @@ class AuthService {
       });
     }
 
+    newMail(data) {
+      return axios.put("/newmail", data)
+      .then(response => {
+        return response.data;
+      },
+      (error) => {
+        throw new Error(error.data.msg);
+      });
+    }
+
     firstAccess(data) {
       return axios.put("/firstaccess", data)
       .then(response => {

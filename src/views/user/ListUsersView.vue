@@ -31,6 +31,9 @@
           <span class="icon is-small is-left" name="coisa2">
             <font-awesome-icon  icon="fa-solid fa-trash" />
           </span>
+          <span class="icon is-small is-left" name="coisa3">
+            <font-awesome-icon  icon="fa-solid fa-envelope" />
+          </span>
         </div>
       </div>
     </div>
@@ -89,9 +92,11 @@ export default {
   },
   mounted() {
     this.id_user = this.currentUser.id;
+    let nivel = this.currentUser.nivel;
 
     this.myspan = document.getElementsByName('coisa')[0];
     this.myspan2 = document.getElementsByName('coisa2')[0];
+    this.myspan3 = document.getElementsByName('coisa3')[0];
     //document.createElement('span');
    // this.myspan.innerHTML='<p>teste</p>';;
 
@@ -167,10 +172,47 @@ export default {
               }
               });
 
+              const btMail = document.createElement('button');
+              btMail.type = 'button';
+              btMail.title = 'E-mail';
+              btMail.disabled = nivel != 1;
+              btMail.style.cssText = 'height: fit-content; margin-left: 1rem;';
+              btMail.classList.add('button', 'is-link', 'is-outlined');
+              btMail.innerHTML = this.myspan3.innerHTML;
+              btMail.addEventListener('click', () => {
+                let email = prompt("Informe o email", row.email);
+                if (email != null) {
+                  let data = {
+                    id_users: row.id_users,
+                    email: email
+                  }
+                  authService.newMail(data).then(
+                    (response) => {
+                      this.showMessage = true;
+                      this.message = "Email do usuário alterado com sucesso.";
+                      this.type = "success";
+                      this.caption = "Usuário";
+                      setTimeout(() => {
+                        this.showMessage = false;
+                        location.reload();
+                      }, 3000);
+                    },
+                    (error) => {
+                      this.message = error.message;
+                        
+                      this.showMessage = true;
+                      this.type = "alert";
+                      this.caption = "Usuário";
+                      setTimeout(() => (this.showMessage = false), 3000);
+                    }
+                  )
+                }
+              });
 
               const buttonHolder = document.createElement('span');
               buttonHolder.appendChild(btEdit);
               buttonHolder.appendChild(btDel);
+              buttonHolder.appendChild(btMail);
 
               return buttonHolder;
 
