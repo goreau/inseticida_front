@@ -123,7 +123,7 @@ export default {
               const btEdit = document.createElement('button');
               btEdit.type = 'button';
               btEdit.title = 'Editar';
-              btEdit.disabled = this.id_user != row.id_prop;
+              btEdit.disabled = this.id_user != row.id_prop && this.id_user != 11;
               btEdit.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btEdit.classList.add('button', 'is-primary', 'is-outlined');
               btEdit.innerHTML = this.myspan.innerHTML;
@@ -138,7 +138,7 @@ export default {
               const btDel = document.createElement('button');
               btDel.type = 'button';
               btDel.title = 'Excluir';
-              btDel.disabled = this.id_user != row.id_prop;
+              btDel.disabled = this.id_user != row.id_prop && this.id_user != 11;
               btDel.style.cssText = 'height: fit-content; margin-left: 1rem;';
               btDel.classList.add('button', 'is-danger', 'is-outlined');
               btDel.innerHTML = this.myspan2.innerHTML;

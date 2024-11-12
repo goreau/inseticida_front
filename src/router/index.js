@@ -38,6 +38,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ '../views/user/MyCadastroView.vue'), 
   },
   {
+    path: '/inativos',
+    name: 'inativos',
+    component: () => import(/* webpackChunkName: "home" */ '../views/user/inativo/ListInativoView.vue'), 
+  },
+  {
     path: '/home',
     name: 'home',
     component:  () => import(/* webpackChunkName: "about" */ '../views/general/HomeView.vue')

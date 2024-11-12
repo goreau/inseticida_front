@@ -79,10 +79,10 @@ class AuthService {
     edit(data) {
       return axios.put('/editUser', data)
       .then(response => {
-        return response.data;
+        return response.msg;
       },
       (error) => {
-        return error.response.data;
+        throw new Error(error.data.msg);
       })
     }
 
@@ -103,6 +103,23 @@ class AuthService {
         return response;
       })
     }  
+
+    inativos() {
+       return axios.get("/inativos")
+       .then(response => {
+         return response.data;
+       });
+     }
+
+     setAtivo(id){
+      return axios.put('/setAtivo', {'id': id})
+      .then(response => {
+        return response.data;
+      },
+      (error) => {
+        return error.response.data;
+      })
+     }
 
     /*updateDb() {
       return axios.get("/updatedb")

@@ -109,6 +109,12 @@
                   {name: "Resumo", path: "gerenciamento>saldo>resumo", "route": "/saldo", iconSlot: "search"},
                 ]
               },
+              { isDivider: true },
+              { name: "Usuários Inativos",
+                menu: [
+                  {name: "Consultar", path: "gerenciamento>usuários inativos>consultar", "route": "/inativos", iconSlot: "search"},
+                ]
+              },
             ]
           },
           {

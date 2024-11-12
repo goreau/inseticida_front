@@ -236,13 +236,7 @@ export default {
           this.user.nivel = data.nivel;
         },
         (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.response.data ||
-            error.message ||
-            error.toString();
+          this.message = error.toString();
           this.showMessage = true;
           this.type = "alert";
           this.caption = "Usuario";
@@ -266,13 +260,7 @@ export default {
             setTimeout(() => (this.showMessage = false), 3000);
           },
           (error) => {
-            this.message =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.response.data ||
-              error.message ||
-              error.toString();
+            this.message = error.toString();
             this.showMessage = true;
             this.type = "alert";
             this.caption = "Usuário";
