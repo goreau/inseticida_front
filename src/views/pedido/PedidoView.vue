@@ -196,6 +196,16 @@
                   </span>
                 </div>
               </div>
+              <div class="field">
+                <label class="label">Telefone para Contato</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="text"
+                    v-model="pedido.telefone"
+                  />
+                </div>
+              </div>
               <!---->
               <br>
               <a href="./orientacao.pdf" target="_blank">Orientações sobre Inseticidas</a>
@@ -251,7 +261,8 @@ export default {
         est_imoveis: '', 
         est_casos: '', 
         est_pendencia: '', 
-        est_consumo: ''
+        est_consumo: '',
+        telefone: ''
       },
       v$: useValidate(),
       isLoading: false,

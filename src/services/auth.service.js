@@ -121,7 +121,7 @@ class AuthService {
       })
      }
 
-    /*updateDb() {
+    updateDb() {
       return axios.get("/updatedb")
       .then(response => {
         return response.data;
@@ -129,7 +129,7 @@ class AuthService {
       (error) => {
         throw new Error(error.data.msg);
       });
-    }*/
+    }
     
 }
 

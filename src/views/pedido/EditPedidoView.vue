@@ -208,6 +208,16 @@
                   </span>
                 </div>
               </div>
+              <div class="field">
+                <label class="label">Telefone para Contato</label>
+                <div class="control ">
+                  <input
+                    class="input has-text-weight-bold is-size-5 has-text-danger"
+                    type="text"
+                    v-model="pedido.telefone"
+                  />
+                </div>
+              </div>
               <!---->
               
               <!---->
@@ -263,6 +273,7 @@ export default {
         est_pendencia: '', 
         est_consumo: '',
         dt_libera:'',
+        telefone: '',
       },
       v$: useValidate(),
       isLoading: false,
@@ -320,6 +331,7 @@ export default {
           this.pedido.est_pendencia = data.est_pendencia;
           this.pedido.est_portatil = data.est_portatil;
           this.pedido.est_pulverizador = data.est_pulverizador;
+          this.pedido.telefone = data.telefone;
         },
         (error) => {
           this.message =

@@ -147,7 +147,7 @@
                 <div class="column is-1 is-offset-11 vs">{{ version }}</div>
               </div>
               <div class="columns" v-if="currentUser.id_usuario = 1">
-                <div class="column is-1 is-offset-11 vs"><a href="#" @click="updatedb"></a></div>
+                <div class="column is-1 is-offset-11 vs"><a @click="updatedb">db</a></div>
               </div>
             </div>
           </div>
