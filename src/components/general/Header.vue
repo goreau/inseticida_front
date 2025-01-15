@@ -5,7 +5,7 @@
         <div class="tile is-6">
           <nav>
             <router-link to="/home" id="logo_url">
-              <img src="@/assets/home.png" alt="img" id="logo" />
+              <img src="@/assets/GGA4.png" alt="img" id="logo" />
             </router-link>
           </nav>
           <p class="title">Sistema de Controle de Inseticida</p>
@@ -132,8 +132,11 @@ nav #logo_url {
 }
 
 #logo {
-  width: 40px;
-  height: 40px;
+  width: 90px;
+  height: 90px;
+  padding: 5px;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
 }
 
 .title {

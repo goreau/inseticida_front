@@ -100,6 +100,7 @@ export default {
             columns:[
               {title: 'Data', field: 'dt_pedido', type: 'string'},
               {title: 'Produto', field: 'produto', type: 'string'},
+              {title: 'Unidade', field: 'unidade', type: 'string'},
               {title: 'Quantidade', field: 'quant_sol', type: 'string'},
             ], 
           },

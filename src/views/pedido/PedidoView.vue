@@ -20,13 +20,14 @@
                   <label class="label">Produto</label>
                   <div class="control">
                     <CmbProduto
-                      @selProd="pedido.id_produto = $event"
+                      @selProd="id_prod = $event"
                     />
                     <span class="is-error" v-if="v$.pedido.id_produto.$error">
                       {{ v$.pedido.id_produto.$errors[0].$message }}
                     </span>
                   </div>
                 </div>
+                <p v-if="id_prod>0" class="alert">ATENÇÃO: Informar as quantidades em {{ unidade }}</p>
                 <div class="field">
                   <label class="label">Quantidade Solicitada</label>
                   <input 
@@ -264,6 +265,8 @@ export default {
         est_consumo: '',
         telefone: ''
       },
+      id_prod:0,
+      unidade: '',
       v$: useValidate(),
       isLoading: false,
       message: "",
@@ -348,7 +351,20 @@ export default {
     if (this.user){
       this.pedido.id_sisaweb = this.user.id;
     }
-  }
+  },
+  watch: {
+    id_prod(value) {
+      this.pedido.id_produto = value;
+      pedidoService.getProduto(value)
+      .then((res) => {
+        this.unidade = res.data.unidade;
+      })
+      .catch((err) => {
+        console.log(err.response);
+        this.unidade = 'Erro';
+      })
+    }
+  },
 };
 </script>
 
@@ -364,5 +380,10 @@ label.radio{
 a{
   font-size: large;
   font-weight: 700;
+}
+.alert{
+  font-size: large;
+  font-weight: bolder;
+  color: #990000;
 }
 </style>

@@ -27,6 +27,7 @@
                     </span>
                   </div>
                 </div>
+                <p v-if="id_prod>0" class="alert">ATENÇÃO: Quantidades em {{ unidade }}</p>
                 <div class="field">
                   <label class="label">Quantidade Solicitada</label>
                   <input 
@@ -275,6 +276,8 @@ export default {
         dt_libera:'',
         telefone: '',
       },
+      id_prod:0,
+      unidade: '',
       v$: useValidate(),
       isLoading: false,
       message: "",
@@ -319,7 +322,8 @@ export default {
       pedidoService.getPedido(this.pedido.id_pedido).then(
         (response) => {
           let data = response.data;
-          this.pedido.id_produto = data.id_produto;     
+          this.pedido.id_produto = data.id_produto;  
+          this.id_prod = data.id_produto;   
           this.pedido.id_programa = data.id_programa;     
           this.pedido.quant_sol = data.quant_sol;
           this.pedido.justifica = data.justifica;
@@ -393,6 +397,18 @@ export default {
       this.pedido.id_users = cUser.id;
     }
   },
+  watch: {
+    id_prod(value) {
+      pedidoService.getProduto(value)
+      .then((res) => {
+        this.unidade = res.data.unidade;
+      })
+      .catch((err) => {
+        console.log(err.response);
+        this.unidade = 'Erro';
+      })
+    }
+  },
 };
 </script>
 
@@ -404,5 +420,10 @@ label.radio{
   border: 1px solid;
   padding-bottom: .4rem;
   padding-top: .4rem;
+}
+.alert{
+  font-size: large;
+  font-weight: bolder;
+  color: #990000;
 }
 </style>

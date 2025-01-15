@@ -70,6 +70,16 @@ class PedidoService {
         return error.response.data;
     })
   }
+
+  getProduto(id) {
+    return axios.get(`/pedidoprod/${id}`)
+    .then(response => {
+        return {data: response.data};
+    },
+    (error) => {
+        return error;
+    })
+  } 
   
 }
 

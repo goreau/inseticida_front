@@ -127,7 +127,7 @@ class AuthService {
         return response.data;
       },
       (error) => {
-        throw new Error(error.data.msg);
+        throw new Error(error.data);
       });
     }
     
