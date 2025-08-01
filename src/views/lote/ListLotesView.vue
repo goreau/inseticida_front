@@ -2,7 +2,6 @@
   <div class="main-container">
     <div class="columns is-centered">
       <div class="column is-11">
-        <Loader v-if="isLoading" />
         <Message
           v-if="showMessage"
           @do-close="closeMessage"
@@ -41,7 +40,6 @@
 <script>
 import loteService from "@/services/lote.service";
 import MyTable from '@/components/forms/MyTable.vue';
-import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
 import Message from "@/components/general/Message.vue";
 
@@ -51,7 +49,6 @@ export default {
       return {
           tableName: 'lote',
           dataTable: [],
-          isLoading: false,
           columns: [],
           myspan: null,
           myspan2: null,
@@ -64,7 +61,6 @@ export default {
   },
   components: {
       MyTable,
-      Loader,
       ConfirmDialog,
       Message,
   },
@@ -93,16 +89,15 @@ export default {
     //document.createElement('span');
    // this.myspan.innerHTML='<p>teste</p>';;
 
-      this.isLoading = true;
       loteService.getLotes()
           .then((response) => {
               this.dataTable = response.data;
-              this.isLoading = false;
+              ;
           })
           .catch((err) =>{
             console.log(err);
           })
-          .finally(() => this.isLoading = false);
+          .finally(() => {});
 
       this.columns = [
           {title: 'Produto', field: 'produto', type: 'string'},

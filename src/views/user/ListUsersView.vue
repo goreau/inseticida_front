@@ -34,6 +34,12 @@
           <span class="icon is-small is-left" name="coisa3">
             <font-awesome-icon  icon="fa-solid fa-envelope" />
           </span>
+          <span class="icon is-small is-left" name="coisa4">
+            <font-awesome-icon  icon="fa-solid fa-user-secret" />
+          </span>
+          <span class="icon is-small is-left" name="coisa5">
+            <font-awesome-icon  icon="fa-solid fa-power-off" />
+          </span>
         </div>
       </div>
     </div>
@@ -97,6 +103,8 @@ export default {
     this.myspan = document.getElementsByName('coisa')[0];
     this.myspan2 = document.getElementsByName('coisa2')[0];
     this.myspan3 = document.getElementsByName('coisa3')[0];
+    this.myspan4 = document.getElementsByName('coisa4')[0];
+    this.myspan5 = document.getElementsByName('coisa5')[0];
     //document.createElement('span');
    // this.myspan.innerHTML='<p>teste</p>';;
 
@@ -116,7 +124,7 @@ export default {
           {title: 'Login', field: 'login', type: 'string'},
           {title: 'Unidade', field: 'unidade', type: 'string'},
           {title: 'Nivel', field: 'role', type: 'string'},
-          {title: 'Ações',  
+          {title: 'Ações', minWidth: 350,   
             formatter: (cell, formatterParrams) =>{
               const row = cell.getRow().getData();
 
@@ -209,10 +217,77 @@ export default {
                 }
               });
 
+              const btImpess = document.createElement('button');
+              btImpess.type = 'button';
+              btImpess.title = 'Logar como';
+              btImpess.style.cssText = 'height: fit-content; margin-left: 1rem;';
+              btImpess.classList.add('button', 'is-info', 'is-outlined');
+              btImpess.innerHTML = this.myspan4.innerHTML;
+              btImpess.addEventListener('click', async () => {
+                const user = { username: row.login , password: 'AH@g654321'};
+                const resp = await authService.impersonate(user);
+                if (resp){
+                  this.$store.commit('auth/loginSuccess', resp);
+                  location.href = this.$router.resolve({ name: 'home' }).href;
+                  //this.$router.push({ name: 'home' });
+                }
+               /* .then(
+                  () => {
+                    document.getElementById('main').className = "main";
+                    this.$router.push({ name: 'home' });
+                  },
+
+                );*/
+              });
+
+              const btReset = document.createElement('button');
+              btReset.type = 'button';
+              btReset.title = 'Reset';
+              btReset.style.cssText = 'height: fit-content; margin-left: 1rem;';
+              btReset.classList.add('button', 'is-warning');
+              btReset.innerHTML = this.myspan5.innerHTML;
+              btReset.addEventListener('click', async () => {
+                const ok = await this.$refs.confirmDialog.show({
+                  title: 'Reset',
+                  message: 'Deseja reiniciar o usuário para o padrão inicial?',
+                  okButton: 'Confirmar',
+              })
+              if (ok) {
+                authService.restart(row)
+                .then(resp =>{
+                  if (resp.status == '200'){
+                    this.message = resp.data;
+                    this.showMessage = true;
+                    this.type = "success";
+                    this.caption = "Usuário";
+                    setTimeout(() => (this.showMessage = false), 3000);
+                  } else {
+                    this.message = resp;
+                    this.showMessage = true;
+                    this.type = "alert";
+                    this.caption = "Usuário";
+                    setTimeout(() => (this.showMessage = false), 3000);
+                  }
+                })
+                .catch(err =>{
+                  this.message = err;
+                  this.showMessage = true;
+                  this.type = "alert";
+                  this.caption = "Usuário";
+                  setTimeout(() => (this.showMessage = false), 3000);
+                })
+              }
+              });
+
               const buttonHolder = document.createElement('span');
               buttonHolder.appendChild(btEdit);
               buttonHolder.appendChild(btDel);
               buttonHolder.appendChild(btMail);
+
+              if (this.currentUser.nivel == 1){
+                buttonHolder.appendChild(btImpess);
+                buttonHolder.appendChild(btReset);
+              }
 
               return buttonHolder;
 

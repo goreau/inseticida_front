@@ -14,7 +14,7 @@
           <div class="tile is-ancestor" v-if="loggedIn">
             <div class="tile is-3"></div>
             <div class="tile is-6">
-              <Menu />
+              <Menu :conv="currentUser.nivel == 4" />
             </div>
             <div class="tile is-3">
               <DockMenu :items="items" :onSelected="this.selected" :theme="{
@@ -62,6 +62,7 @@ export default {
   data() {
       return {
         log: false,
+        index: -1,
         items : [
           {
           name: 'uuu',
@@ -80,15 +81,26 @@ export default {
     },
   },
   watch:{
+    currentUser: {
+      immediate: true,
+      handler(novoUsuario) {
+        if (this.index >= 0){
+          var anchors = document.getElementsByClassName('name-container');
+          anchors[this.index].innerHTML = this.currentUser.nome;
+        }
+        
+      },
+    },
     log(val){
       if (val){
         var anchors = document.getElementsByClassName('name-container');
         for (var i=0; i<anchors.length; i++){
           if (anchors[i].innerHTML == 'uuu'){
-            anchors[i].innerHTML = this.currentUser.nome;
+            this.index = i;
             break;
           }
         }
+        anchors[i].innerHTML = this.currentUser.nome;
       } 
     }
   }
@@ -106,7 +118,7 @@ export default {
   }
 
 .conteudo {
-  height: 7rem;
+  height: 8.5rem;
   background-color: $base-bg;
   border-bottom: 4px solid $primary-color;
   padding: 1rem;
@@ -134,6 +146,7 @@ nav #logo_url {
 #logo {
   width: 90px;
   height: 90px;
+  margin-top: 1rem;
   padding: 5px;
   border: 1px solid #ffffff;
   border-radius: 10px;

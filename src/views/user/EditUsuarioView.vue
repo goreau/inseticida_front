@@ -78,6 +78,15 @@
                     />
                     Usuário Setor
                   </label>
+                  <label class="radio">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="4"
+                      v-model="user.nivel"
+                    />
+                    Convidado
+                  </label>
                 </div>
               </div>
               <div class="field">
@@ -178,6 +187,7 @@ export default {
         id_unidade: 0,
         nivel: 0,
         id_prop: 0,
+        new_password: ""
       },
       senha: '',
       municipio: '',
@@ -250,6 +260,8 @@ export default {
       this.v$.$validate(); 
       if (!this.v$.$error) {
         document.getElementById("login").classList.add("is-loading");
+
+        this.user.new_password = this.user.senha;
 
         authService.edit(this.user).then(
           (response) => {

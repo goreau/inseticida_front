@@ -240,7 +240,7 @@ export default {
   box-sizing: border-box;
 }
 .main-container {
-  margin: 8rem 5rem 5rem 5rem;
+  margin: 10rem 5rem 5rem 5rem;
   min-height: 40rem;
 }
 

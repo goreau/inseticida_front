@@ -2,7 +2,6 @@
   <div class="main-container">
     <div class="columns is-centered">
       <div class="column is-11">
-        <Loader v-if="isLoading" />
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">{{ title }}</p>
@@ -24,7 +23,6 @@
 </template>
 
 <script>
-import Loader from "@/components/general/Loader.vue";
 import MyTable from "@/components/forms/MyTable.vue";
 import MyGroupedTable from "@/components/forms/MyGroupedTable.vue";
 import reportService from "@/services/report.service";
@@ -40,7 +38,6 @@ export default {
       filter: {},
       dataTable: [],
       group: null,
-      isLoading: false,
       columns: [],
       title: 'Relatórios',
       strFiltro: '',
@@ -48,7 +45,6 @@ export default {
     };
   },
   components: {
-    Loader,
     MyTable,
     MyGroupedTable
   },
@@ -103,6 +99,7 @@ export default {
             { title: "Local", field: "local", type: "string" },
             { title: "Produto", field: "produto", type: "string" },
             { title: "Lote", field: "lote", type: "string" },
+            { title: "Validade", field: "validade", type: "string", sorter: "date" },
             { title: "Quantidade", field: "qtd", type: "string", hozAlign:"right", formatter: quant },
             { title: "Unidade", field: "unidade", type: "string" },
 
@@ -224,22 +221,19 @@ export default {
     }
   },
   mounted() {
-    this.isLoading = true;
     this.myspan = document.getElementsByName('coisa')[0];
     reportService.getRelat(this.id, this.filter)
       .then((response) => {
         var data = response.data;
         this.dataTable = data.data;
         this.strFiltro = data.filter;
-        this.isLoading = false;
       })
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => (this.isLoading = false));
+      .finally(() => {});
 
     this.createColumns();
-    this.isLoading = false;
   },
   created() {
     this.id = this.$route.params.id;

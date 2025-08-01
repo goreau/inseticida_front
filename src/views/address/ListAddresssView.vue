@@ -2,7 +2,6 @@
   <div class="main-container">
     <div class="columns is-centered">
       <div class="column is-11">
-        <Loader v-if="isLoading" />
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">Endereços Cadastrados</p>
@@ -34,7 +33,6 @@
 <script>
 import addressService from "@/services/address.service";
 import MyTable from '@/components/forms/MyTable.vue';
-import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
 
 export default {
@@ -43,7 +41,6 @@ export default {
       return {
           tableName: 'address',
           dataTable: [],
-          isLoading: false,
           columns: [],
           myspan: null,
           myspan2: null,
@@ -52,9 +49,7 @@ export default {
   },
   components: {
       MyTable,
-      Loader,
       ConfirmDialog
-
   },
   methods: {
     newLote() {
@@ -81,16 +76,14 @@ export default {
     //document.createElement('span');
    // this.myspan.innerHTML='<p>teste</p>';;
 
-      this.isLoading = true;
       addressService.getAddresss()
           .then((response) => {
               this.dataTable = response.data;
-              this.isLoading = false;
           })
           .catch((err) =>{
             console.log(err);
           })
-          .finally(() => this.isLoading = false);
+          .finally(() => {});
 
       this.columns = [
           {title: 'Unidade', field: 'unidade', type: 'string'},

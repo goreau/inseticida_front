@@ -76,6 +76,15 @@
                     />
                     Usuário Setor
                   </label>
+                  <label class="radio">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="4"
+                      v-model="user.nivel"
+                    />
+                    Convidado
+                  </label>
                 </div>
                 <span class="is-error" v-if="v$.user.nivel.$error">
                     {{ v$.user.nivel.$errors[0].$message }}

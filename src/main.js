@@ -15,13 +15,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faUserSecret, faFilePdf, faFileExcel, faFileCsv, faFileLines, faTrash, faEdit, faPlusCircle, faCheck,
     faUser, faUsers, faHouse, faFileContract, faClockRotateLeft, faScrewdriverWrench, faSearch, faBuilding, faLock, 
     faHourglass, faEye, faEyeSlash, faFileInvoice, faBroom, faBan, faFlask, faCubes, faLocationDot, faTruckFast, faHandHolding, faGavel,
-    faClone, faEnvelope, faPersonCircleCheck,} from '@fortawesome/free-solid-svg-icons'
+    faClone, faEnvelope, faPersonCircleCheck, faPowerOff} from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
 library.add(faUserSecret, faFilePdf, faFileExcel, faFileCsv, faFileLines, faTrash, faEdit, faPlusCircle, faCheck,
     faUser, faUsers, faHouse, faFileContract, faClockRotateLeft, faScrewdriverWrench, faSearch, faBuilding, faLock, 
     faHourglass, faEye, faEyeSlash, faFileInvoice, faBroom, faBan, faFlask, faCubes, faLocationDot, faTruckFast, faHandHolding, faGavel, 
-    faClone, faEnvelope, faPersonCircleCheck );
+    faClone, faEnvelope, faPersonCircleCheck, faPowerOff );
 
 createApp(App)
 .use(store)

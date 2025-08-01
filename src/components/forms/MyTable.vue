@@ -97,12 +97,14 @@
       <font-awesome-icon icon="fa-solid fa-file-pdf" />
     </button>
   </div>
+  <Loader :active="isLoading" />
   <div ref="table" class="is-striped"></div>
 </template>
 
 <script>
 import { TabulatorFull as Tabulator } from "tabulator-tables"; //import Tabulator library
 import lang from "./lang";
+import Loader from '@/components/general/Loader.vue';
 
 
 export default {
@@ -115,10 +117,14 @@ export default {
         value: "",
         typed: "string",
       },
+      isLoading: false,
       filter: false,
       arrFilter:[],
       cbColumns:[]
     };
+  },
+  components: {
+      Loader,
   },
   methods: {
     setFilter() {
@@ -134,6 +140,7 @@ export default {
       localStorage.setItem(this.tableName, JSON.stringify(this.arrFilter));//obj));
     },
     clearFilter() {
+      this.isLoading = true;
       this.form.field = "0";
       this.form.type = "0";
       this.form.value = "";
@@ -142,6 +149,7 @@ export default {
 
       this.tabulator.clearFilter();
       localStorage.removeItem(this.tableName);
+      this.isLoading = false;
     },
     download_csv() {
       this.tabulator.download("csv", "data.csv");
@@ -165,6 +173,7 @@ export default {
   props: ["tableData", "columns","filtered", "tableName"],
   watch: {
     tableData(value) {
+      this.isLoading = true;
       this.tabulator = new Tabulator(this.$refs.table, {
         langs: lang,
         locale: "pt-br",
@@ -185,6 +194,18 @@ export default {
       if (this.filter){
         this.tabulator.setFilter(this.arrFilter);//this.form.column, this.form.operator, this.form.value);
       }
+
+      let me = this;
+
+      this.tabulator.on("tableBuilt", function () {
+        if (me.filter ) {//&& me.tabulator.ta
+          if (me.arrFilter.length > 0){
+            me.tabulator.setFilter(me.arrFilter);
+          } 
+         // this.$router.go();
+        }
+        me.isLoading = false;
+      });
     },
   },
   mounted() {

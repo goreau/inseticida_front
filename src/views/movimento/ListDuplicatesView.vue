@@ -2,7 +2,6 @@
   <div class="main-container">
     <div class="columns is-centered">
       <div class="column is-11">
-        <Loader v-if="isLoading" />
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">Movimentos</p>
@@ -34,7 +33,6 @@
 <script>
 import movimentoService from "@/services/movimento.service";
 import MyTable from '@/components/forms/MyTable.vue';
-import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
 
 export default {
@@ -43,7 +41,6 @@ export default {
       return {
           dataTable: [],
           tableName: 'duplica',
-          isLoading: false,
           columns: [],
           myspan: null,
           myspan2: null,
@@ -52,7 +49,6 @@ export default {
   },
   components: {
       MyTable,
-      Loader,
       ConfirmDialog
 
   },
@@ -80,17 +76,14 @@ export default {
     this.myspan2 = document.getElementsByName('coisa2')[0];
     //document.createElement('span');
    // this.myspan.innerHTML='<p>teste</p>';;
-
-      this.isLoading = true;
       movimentoService.getDuplicates({})
           .then((response) => {
               this.dataTable = response.data;
-              this.isLoading = false;
           })
           .catch((err) =>{
             console.log(err);
           })
-          .finally(() => this.isLoading = false);
+          .finally(() => {});
 
       this.columns = [
           {title: 'Chave', field: 'id_movimento', type: 'number'},

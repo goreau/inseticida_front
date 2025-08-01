@@ -99,12 +99,13 @@
     </button>
   </div>
   <div ref="table"></div>
+  <Loader :active="isLoading" />
 </template>
 
 <script>
 import { TabulatorFull as Tabulator } from "tabulator-tables"; //import Tabulator library
 import lang from "./lang";
-
+import Loader from '@/components/general/Loader.vue';
 
 export default {
   data() {
@@ -117,6 +118,7 @@ export default {
         type: "string",
       },
       filter: false,
+      isLoading: false,
       cbColumns:[]
     };
   },
@@ -143,11 +145,13 @@ export default {
       this.tabulator.setFilter(obj.column, obj.operator, obj.value);
     },
     clearFilter() {
+      this.isLoading = true;
       this.form.column = "0";
       this.form.operator = "0";
       this.form.value = "";
 
       this.tabulator.clearFilter();
+      this.isLoading = false;
     },
     download_csv() {
       this.tabulator.download("csv", "data.csv");
@@ -171,6 +175,7 @@ export default {
   props: ["tableData", "columns","filtered"],
   watch: {
     tableData(value) {
+      this.isLoading = true;
       this.tabulator = new Tabulator(this.$refs.table, {
         langs: lang,
         locale: "pt-br",
@@ -220,7 +225,18 @@ export default {
         movableColumns: true,
         paginationCounter: "rows",
       });
+
+      let me = this;
     
+      this.tabulator.on("tableBuilt", function () {
+        if (me.filter ) {//&& me.tabulator.ta
+          if (me.arrFilter.length > 0){
+            me.tabulator.setFilter(me.arrFilter);
+          } 
+         // this.$router.go();
+        }
+        me.isLoading = false;
+      });
 
       this.cbColumns = this.columns.filter( el => el.title !== "Ações");
     },

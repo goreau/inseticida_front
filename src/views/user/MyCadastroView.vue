@@ -73,6 +73,15 @@
                     />
                     Usuário Setor
                   </label>
+                  <label class="radio" v-if="user.nivel==4">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="4"
+                      checked="checked"
+                    />
+                    Convidado
+                  </label>
                 </div>
               </div>
               <div class="field">
@@ -230,6 +239,7 @@ export default {
   },
   methods: { 
     updatedb(){
+     // return false;
       authService.updateDb().then(
           (response) => {
             this.showMessage = true;

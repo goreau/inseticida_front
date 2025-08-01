@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="columns is-centered">
       <div class="column is-11">
-        <Loader v-if="isLoading" />
+        <Message v-if="showMessage" @do-close="closeMessage" :msg="message" :type="type" :caption="caption" />
         <div class="card">
           <header class="card-header">
             <p class="card-header-title is-centered">Movimentos</p>
@@ -34,8 +34,8 @@
 <script>
 import movimentoService from "@/services/movimento.service";
 import MyTable from '@/components/forms/MyTable.vue';
-import Loader from '@/components/general/Loader.vue';
 import ConfirmDialog from '@/components/forms/ConfirmDialog.vue';
+import Message from "@/components/general/Message.vue";
 
 export default {
   name: 'ListaVendas',
@@ -43,18 +43,20 @@ export default {
       return {
           tableName: 'movimento', 
           dataTable: [],
-          isLoading: false,
           columns: [],
           myspan: null,
           myspan2: null,
           id_user: 0,
+          message: "",
+            caption: "",
+            type: "",
+            showMessage: false,
       }
   },
   components: {
       MyTable,
-      Loader,
-      ConfirmDialog
-
+      ConfirmDialog,
+      Message
   },
   methods: {
     newMovimento() {
@@ -81,16 +83,14 @@ export default {
     //document.createElement('span');
    // this.myspan.innerHTML='<p>teste</p>';;
 
-      this.isLoading = true;
       movimentoService.getMovimentos()
           .then((response) => {
               this.dataTable = response.data;
-              this.isLoading = false;
           })
           .catch((err) =>{
             console.log(err);
           })
-          .finally(() => this.isLoading = false);
+          .finally(() => {});
 
       this.columns = [
           {title: 'Produto', field: 'produto', type: 'string'},
@@ -134,9 +134,19 @@ export default {
                   okButton: 'Confirmar',
               })
               if (ok) {
-                movimentoService.delete(row.id_movimento);
-                location.reload();
-              }
+                movimentoService.delete(row.id_movimento).then(
+                  (response) => {
+                    location.reload();
+                  },
+                  (error) => {
+                    this.message = error.message;
+                        this.showMessage = true;
+                        this.type = "alert";
+                        this.caption = "Movimento";
+                        setTimeout(() => (this.showMessage = false), 3000);
+                  }
+                );
+              } 
               });
 
 

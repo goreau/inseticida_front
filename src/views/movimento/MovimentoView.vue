@@ -171,7 +171,7 @@ export default {
             movimento: {
                 id_lote: { minValue: combo$(1), },
                 or_dest: { minValue: combo$(1), },
-                tipo: { required$ },
+                tipo: { required$, minValue: combo$(1), },
                 dt_movimento: { required$ },
                 quantidade: { required$, minValue: 0.01 }
             },

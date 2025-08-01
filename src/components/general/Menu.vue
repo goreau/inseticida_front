@@ -51,6 +51,9 @@
     components: {
       DockMenu
     },
+    props: {
+      conv: false,
+    },
     data() {
       return {
         items: [
@@ -58,7 +61,7 @@
             name: "Usuário",
             iconSlot: "users",
             menu: [
-              { name: "Cadastrar",path: "usuário>cadastrar", route: "/user", iconSlot: "user",}, 
+              { name: "Cadastrar",path: "usuário>cadastrar", route: "/user", iconSlot: "user", disable: this.conv}, 
               {name: "Consultar",path: "usuário>consultar", route: "/users", iconSlot: "search",}
             ]
           },
@@ -67,46 +70,46 @@
             menu: [
               { name: "Produto",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>produto>cadastrar", "route": "/produto", iconSlot: "prod"},
+                  {name: "Cadastrar", path: "gerenciamento>produto>cadastrar", "route": "/produto", iconSlot: "prod",  disable: this.conv},
                   {name: "Consultar",path: "gerenciamento>produto>consultar", "route": "/produtos", iconSlot: "search"}
                 ]
               },
               { isDivider: true },
               { name: "Lote",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>lote>cadastrar", "route": "/lote", iconSlot: "lote"},
+                  {name: "Cadastrar", path: "gerenciamento>lote>cadastrar", "route": "/lote", iconSlot: "lote",  disable: this.conv},
                   {name: "Consultar", path: "gerenciamento>lote>consultar", "route": "/lotes", iconSlot: "search"}]
               },
               { isDivider: true },
               { name: "Revalidação",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>revalidação>cadastrar", "route": "/revalida", iconSlot: "revalida"},
+                  {name: "Cadastrar", path: "gerenciamento>revalidação>cadastrar", "route": "/revalida", iconSlot: "revalida",  disable: this.conv},
                   {name: "Consultar", path: "gerenciamento>revalidação>consultar", "route": "/revalidas", iconSlot: "search"}
                 ]
               },
               { isDivider: true },
               { name: "Unidade",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>unidade>cadastrar", "route": "/unidade", iconSlot: "unidade"},
+                  {name: "Cadastrar", path: "gerenciamento>unidade>cadastrar", "route": "/unidade", iconSlot: "unidade",  disable: this.conv},
                   {name: "Consultar", path: "gerenciamento>unidade>consultar", "route": "/unidades", iconSlot: "search"}]
               },
               { isDivider: true },
               { name: "Endereço",
                 menu: [
-                  {name: "Cadastrar", path: "gerenciamento>endereço>cadastrar", "route": "/address", iconSlot: "address"},
+                  {name: "Cadastrar", path: "gerenciamento>endereço>cadastrar", "route": "/address", iconSlot: "address",  disable: this.conv},
                   {name: "Consultar", path: "gerenciamento>endereço>consultar", "route": "/addresss", iconSlot: "search"}]
               },
               { isDivider: true },
               { name: "Duplicidades",
                 menu: [
-                  {name: "Movimento", path: "gerenciamento>duplicidades>movimento", "route": "/duplicas", iconSlot: "clone"},
-                  {name: "Revalidação", path: "gerenciamento>duplicidades>revalidação", "route": "/duplica_revalidas", iconSlot: "clone"},
+                  {name: "Movimento", path: "gerenciamento>duplicidades>movimento", "route": "/duplicas", iconSlot: "clone",  disable: this.conv},
+                  {name: "Revalidação", path: "gerenciamento>duplicidades>revalidação", "route": "/duplica_revalidas", iconSlot: "clone",  disable: this.conv},
                 ]
               },
               { isDivider: true },
               { name: "Saldo",
                 menu: [
-                  {name: "Resumo", path: "gerenciamento>saldo>resumo", "route": "/saldo", iconSlot: "search"},
+                  {name: "Resumo", path: "gerenciamento>saldo>resumo", "route": "/saldo", iconSlot: "search",  disable: this.conv},
                 ]
               },
               { isDivider: true },
@@ -120,7 +123,7 @@
           {
             name: "Movimento",
             menu: [
-              {name: "Cadastrar",path: "movimento>cadastrar", "route": "/movimento", iconSlot: "mov"}, 
+              {name: "Cadastrar",path: "movimento>cadastrar", "route": "/movimento", iconSlot: "mov",  disable: this.conv}, 
               {name: "Consultar",path: "movimento>consultar", "route": "/movimentos", iconSlot: "search"}
             ]
           },

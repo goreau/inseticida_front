@@ -83,7 +83,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="columns" v-if="tipo_relat == 1">
+                  <div class="columns" v-if="tipo_relat == 1 || tipo_relat == 9">
                     <div class="column is-full">
                       <div class="field">
                         <label class="label">Município</label>
@@ -110,7 +110,6 @@
                         <div class="control" id="contFim">
                           <input type="date" id="dtFim" />
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -250,7 +249,7 @@ export default {
       var calfim = bulmaCalendar.attach('#dtFim', options);
 
       const element2 = document.querySelector('#dtFim');
-      console.log(element2);
+
       if (element2) {
         // bulmaCalendar instance is available as element.bulmaCalendar
         element2.bulmaCalendar.on('select', datepicker => {
@@ -261,7 +260,7 @@ export default {
   },
   created() {
     this.tipo_relat = this.$route.params.id;
-    var dtarray = new Array('1', '3', '4', '6', '7', '8');
+    var dtarray = new Array('1', '3', '4', '6', '7', '8', '9');
     this.hasData = dtarray.indexOf(this.tipo_relat) != -1;
     console.log(this.hasData)
   }, 
